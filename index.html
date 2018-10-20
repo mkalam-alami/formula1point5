@@ -1,0 +1,117 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Formula 1.5 Infographics</title>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" type="image/png" href="images/logo-red.png" />
+  </head>
+  <body>
+    <div id="app">
+      <h1><img src="images/logo-red.png"/> Formula 1.5 Infographic generator</h1>
+      <div class="section">
+      <p>NB. This is just an early and ugly prototype! For now <b>only 2018 practice sessions</b> are supported.</p>
+      <p>If there is interest this page could eventually be made nicer and more powerful, eventually supporting all sorts of infographics.</p>
+      </div>
+
+      <div class="section">
+        <h2>Step 1: Fetch data from <a href="https://www.formula1.com/en/results.html">F1.com standings</a></h2>
+        <p>Select all the contents of a table and copy it.</p>
+      </div>
+
+      <div class="section">
+        <h2>Step 2: Paste your data below</h2>
+        <textarea v-model="rawData" v-on:keyup="runParser"></textarea>
+      </div>
+
+      <div class="section">
+        <h2>Step 3: Check the parsed results and make any adjustments</h2>
+        <p>You can add stint data by hand, using letters <b>{{ supportedTyres }}</b> (Hypersoft = Y, Supersoft = s, Superhard = h)</p>
+        <div class="error" v-show="error">
+          <b>PARSING ERROR:</b>: {{ error }}
+        </div>
+        <table v-show="!error">
+        <tr>
+          <th v-for="column in columns">{{ column.name }}</th>
+        </tr>
+        <tr v-for="row in parsedData">
+          <td v-for="cell in row.model">
+            <input type="text" v-model="cell.model" />
+          </td>
+        </tr>
+        </table>
+      </div>
+
+      <div class="section">
+        <h2>Step 4: Fill header data</h2>
+        <form>
+        <table>
+          <tr>
+            <th>Title</th>
+            <th>City</th>
+            <th>Flag (image URL)</th>
+            <th>GP name</th>
+          </tr>
+          <tr>
+            <td><input type="text" class="big" v-model="title" /></td>
+            <td><input type="text" class="big" v-model="city" /></td>
+            <td><input type="text" class="big" v-model="flagUrl" /></td>
+            <td><input type="text" class="big" v-model="gpName" /></td>
+          </tr>
+        </table>
+        </form>
+      </div>
+
+      <div class="section">
+        <h2>Step 5: Share the result! <button id="save">Save as PNG...</button></h2>
+
+        <div id="infographic1" class="infographic">
+          <div class="infographic-header">
+            <div class="infographic-logo">
+              <img src="images/logo-white.png" />
+            </div>
+            <div class="infographic-title">{{ title }}</div>
+            <div class="infographic-city">{{ city }}</div>
+            <div class="infographic-flag">
+              <img v-bind:src="flagUrl" />
+            </div>
+            <div class="infographic-gp-name">{{ gpName }}</div>
+          </div>
+          <table class="infographic-table">
+            <tr class="infographic-table-header">
+              <th colspan="4"></th>
+              <th>Lap Time</th>
+              <th>Stint</th>
+              <th>Gap</th>
+              <th>Laps</th>
+            </tr>
+            <tr v-for="row in parsedData" class="infographic-table-row">
+              <td class="infographic-ranking">{{ row.model.ranking.model }}</td>
+              <td class="infographic-stripe">
+                <div v-bind:style="row.model.team.model | stripeStyle"></div>
+              </td>
+              <td class="infographic-driver">
+                <span class="firstname">{{ row.model.driver.model | firstName }}</span>
+                <span class="lastname">{{ row.model.driver.model | lastName }}</span>
+              </td>
+              <td class="infographic-team">{{ row.model.team.model | shortTeamName }}</td>
+              <td class="infographic-time">{{ row.model.time.model }}</td>
+              <td class="infographic-stint" v-html="tyres(row.model.stint.model)"></td>
+              <td class="infographic-delta">{{ row.model.delta.model }}</td>
+              <td class="infographic-laps">{{ row.model.laps.model }}</td>
+            </tr>
+          </table>
+        </div>
+        </div>
+      </div>
+
+      <!--<pre>{{ parsedData | json}}</pre>-->
+    </div>
+    <script src="scripts/lib/vue.js"></script>
+    <script src="scripts/lib/dom-to-image.js"></script>
+    <script src="scripts/lib/FileSaver.min.js"></script>
+    <script src="scripts/f1p5-parser.js"></script>
+    <script src="scripts/f1p5-data.js"></script>
+    <script src="scripts/app.js"></script>
+  </body>
+</html>
