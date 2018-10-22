@@ -1,6 +1,8 @@
 const vue = new Vue({
   el: '#app',
   data: {
+    tab: 'step1',
+    
     rawData: f1p5.data.demoData,
     parsedData: [],
     columns: [],
