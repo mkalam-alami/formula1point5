@@ -15,7 +15,7 @@ const teamsThatDontExist = [
   'Red Bull Racing TAG Heuer',
 ]
 
-const parseTable = (rawString, dataColumns, targetColumns) => {
+const parseTable = (rawString, inputColumns, outputColumns) => {
 
   // Parse into a two-dimensional array
   const rawLines = rawString.trim().split(/[\r\n]+/g)
@@ -31,7 +31,7 @@ const parseTable = (rawString, dataColumns, targetColumns) => {
   let rows = rawTable.map(rawLine => {
     const row = {};
     rawLine.forEach((rawCell, index) => {
-      const columnInfo = dataColumns[index]
+      const columnInfo = inputColumns[index]
       if (columnInfo) {
         const columnName = columnInfo.name
         let value
@@ -67,7 +67,7 @@ const parseTable = (rawString, dataColumns, targetColumns) => {
   })
 
   // Recalculate rankings and deltas
-  const hasDeltaColumn = targetColumns.filter(type => type.name === 'delta').length > 0
+  const hasDeltaColumn = outputColumns.filter(type => type.name === 'delta').length > 0
   if (hasDeltaColumn) {
     // Find leading time
     let bestTime
@@ -94,7 +94,7 @@ const parseTable = (rawString, dataColumns, targetColumns) => {
   // Extract target columns
   const targetRows = formattedRows.map((row) => {
     const targetRow = { model: {} }
-    targetColumns.forEach(columnInfo => {
+    outputColumns.forEach(columnInfo => {
       if (row.model[columnInfo.name]) {
         targetRow.model[columnInfo.name] = row.model[columnInfo.name]
       } else {

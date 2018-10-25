@@ -31,29 +31,50 @@ const teams = {
   'Williams Mercedes': { shortname: 'Williams', color: '#eff0f4' }
 }
 
-const practiceDataColumns = [
-  { name: 'ranking', type: ColumnTypes.INTEGER },
-  { name: 'carnumber', type: ColumnTypes.INTEGER },
-  { name: 'driver', type: ColumnTypes.TEXT },
-  { name: 'team', type: ColumnTypes.TEXT },
-  { name: 'time', type: ColumnTypes.TIME },
-  { name: 'delta', type: ColumnTypes.DELTA },
-  { name: 'laps', type: ColumnTypes.INTEGER }
-]
+const templates = {
 
-const classificationTargetColumns = [
-  { name: 'ranking', type: ColumnTypes.INTEGER },
-  { name: 'driver', type: ColumnTypes.TEXT },
-  { name: 'team', type: ColumnTypes.TEXT },
-  { name: 'time', type: ColumnTypes.TIME },
-  { name: 'stint', type: ColumnTypes.STINT },
-  { name: 'delta', type: ColumnTypes.DELTA },
-  { name: 'laps', type: ColumnTypes.INTEGER }
-]
+  practice: {
+    title: "Practice session",
+    inputColumns: [
+      { name: 'ranking', type: ColumnTypes.INTEGER },
+      { name: 'carnumber', type: ColumnTypes.INTEGER },
+      { name: 'driver', type: ColumnTypes.TEXT },
+      { name: 'team', type: ColumnTypes.TEXT },
+      { name: 'time', type: ColumnTypes.TIME },
+      { name: 'delta', type: ColumnTypes.DELTA },
+      { name: 'laps', type: ColumnTypes.INTEGER }
+    ],
+    outputColumns: [
+      { name: 'ranking', type: ColumnTypes.INTEGER },
+      { name: 'driver', type: ColumnTypes.TEXT },
+      { name: 'team', type: ColumnTypes.TEXT },
+      { name: 'time', type: ColumnTypes.TIME },
+      { name: 'stint', type: ColumnTypes.STINT },
+      { name: 'delta', type: ColumnTypes.DELTA },
+      { name: 'laps', type: ColumnTypes.INTEGER }
+    ]
+  },
 
-const tyreColors = {
-  'I': '#3ac82c',
-  'W': '#4491d2'
+  race: {
+    title: "Race",
+    inputColumns: [
+      { name: 'ranking', type: ColumnTypes.INTEGER },
+      { name: 'carnumber', type: ColumnTypes.INTEGER },
+      { name: 'driver', type: ColumnTypes.TEXT },
+      { name: 'team', type: ColumnTypes.TEXT },
+      { name: 'laps', type: ColumnTypes.INTEGER },
+      { name: 'time', type: ColumnTypes.TIME },
+      { name: 'pits', type: ColumnTypes.INTEGER }
+    ],
+    outputColumns: [
+      { name: 'ranking', type: ColumnTypes.INTEGER },
+      { name: 'driver', type: ColumnTypes.TEXT },
+      { name: 'team', type: ColumnTypes.TEXT },
+      { name: 'delta', type: ColumnTypes.DELTA },
+      { name: 'pits', type: ColumnTypes.INTEGER }
+    ]
+  }
+
 }
 
 // Exports
@@ -61,7 +82,5 @@ const tyreColors = {
 window.f1p5 = window.f1p5 || {}
 window.f1p5.data = {
   demoData,
-  practiceDataColumns,
-  classificationTargetColumns,
-  tyreColors
+  templates
 }

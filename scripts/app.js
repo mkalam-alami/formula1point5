@@ -2,6 +2,7 @@ const vue = new Vue({
   el: '#app',
   data: {
     tab: 'step1',
+    templateName: 'practice',
     
     rawData: f1p5.data.demoData,
     parsedData: [],
@@ -15,13 +16,18 @@ const vue = new Vue({
     supportedTyres: 'YUsSMHhIW',
     error: ''
   },
+  computed: {
+    template: function () {
+      return f1p5.data.templates[this.templateName]
+    }
+  },
   methods: {
     runParser: function () {
       try {
       this.parsedData = f1p5.parser.parseTable(
         this.rawData,
-        f1p5.data.practiceDataColumns,
-        f1p5.data.classificationTargetColumns)
+        this.template.inputColumns,
+        this.template.outputColumns)
       this.columns = f1p5.data.classificationTargetColumns
       } catch (e) {
         console.error(e)

@@ -125,24 +125,6 @@ input.small {
   border: 0;
 }
 
-button {
-  background-color: white;
-  color: #15151e;
-  padding: 10px;
-  margin-left: 10px;
-  border: 0;
-  font-size: 1.2rem;
-  cursor: pointer;
-}
-button:hover {
-  background-color: #DDD;
-}
-button[disabled] {
-  background-color: #888;
-  color: #555;
-}
-
-
 /* Infographic */
 
 .infographic {
@@ -218,9 +200,11 @@ button[disabled] {
   font-family: F1Bold;
 }
 .infographic-stripe {
+  display: inline-block;
   width: 25px;
 }
 .infographic-stripe div {
+  display: inline-block;
   height: 15px;
   width: 5px;
   margin: auto;

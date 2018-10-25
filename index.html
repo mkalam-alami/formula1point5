@@ -51,6 +51,12 @@
           <div v-show="tab === 'step1'">
             <div class="row">
             <div class="col-md-6">
+              <h2>Choose template</h2>
+
+              <p>Currently selected: <b>{{ template.title }}</b></p>
+
+              <button class="btn btn-secondary" v-bind:class="{ disabled: templateName === 'practice' }" v-on:click="templateName = 'practice'">Practice session</button>
+              <button class="btn btn-secondary" v-bind:class="{ disabled: templateName === 'race' }" v-on:click="templateName = 'race'">Race</button>
 
             </div>
             <div class="col-md-6">
@@ -118,7 +124,7 @@
       <div class="container">
         <h1>
           Result
-          <button id="save">Save as PNG...</button>
+          <button class="btn btn-primary" id="save">Save as PNG...</button>
         </h1>
 
         <div id="infographic1" class="infographic">
@@ -135,7 +141,7 @@
           </div>
           <table class="infographic-table">
             <tr class="infographic-table-header">
-              <th colspan="4"></th>
+              <th ></th>
               <th>Lap Time</th>
               <th>Stint</th>
               <th>Gap</th>
@@ -143,10 +149,10 @@
             </tr>
             <tr v-for="row in parsedData" class="infographic-table-row">
               <td class="infographic-ranking">{{ row.model.ranking.model }}</td>
-              <td class="infographic-stripe">
-                <div v-bind:style="row.model.team.model | stripeStyle"></div>
-              </td>
               <td class="infographic-driver">
+                <div class="infographic-stripe">
+                  <div v-bind:style="row.model.team.model | stripeStyle"></div>
+                </div>
                 <span class="firstname">{{ row.model.driver.model | firstName }}</span>
                 <span class="lastname">{{ row.model.driver.model | lastName }}</span>
               </td>
