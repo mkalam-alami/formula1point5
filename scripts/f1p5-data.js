@@ -31,47 +31,57 @@ const teams = {
   'Williams Mercedes': { shortname: 'Williams', color: '#eff0f4' }
 }
 
+const rankingColumn = { name: 'ranking', type: ColumnTypes.INTEGER, label: '' }
+const carNumberColumn = { name: 'carnumber', type: ColumnTypes.INTEGER, label: '' }
+const driverColumn = { name: 'driver', type: ColumnTypes.TEXT, label: '' }
+const teamColumn = { name: 'team', type: ColumnTypes.TEXT, label: '' }
+const timeColumn = { name: 'time', type: ColumnTypes.TIME, label: 'Lap Time' }
+const stintColumn = { name: 'stint', type: ColumnTypes.STINT, label: 'Stint' }
+const deltaColumn = { name: 'delta', type: ColumnTypes.DELTA, label: 'Gap' }
+const lapsColumn = { name: 'laps', type: ColumnTypes.INTEGER, label: 'Laps' }
+const pointsColumn = { name: 'pits', type: ColumnTypes.INTEGER, label: 'Pts' }
+
 const templates = {
 
   practice: {
     title: "Practice session",
     inputColumns: [
-      { name: 'ranking', type: ColumnTypes.INTEGER },
-      { name: 'carnumber', type: ColumnTypes.INTEGER },
-      { name: 'driver', type: ColumnTypes.TEXT },
-      { name: 'team', type: ColumnTypes.TEXT },
-      { name: 'time', type: ColumnTypes.TIME },
-      { name: 'delta', type: ColumnTypes.DELTA },
-      { name: 'laps', type: ColumnTypes.INTEGER }
+      rankingColumn,
+      carNumberColumn,
+      driverColumn,
+      teamColumn,
+      timeColumn,
+      deltaColumn,
+      lapsColumn
     ],
     outputColumns: [
-      { name: 'ranking', type: ColumnTypes.INTEGER },
-      { name: 'driver', type: ColumnTypes.TEXT },
-      { name: 'team', type: ColumnTypes.TEXT },
-      { name: 'time', type: ColumnTypes.TIME },
-      { name: 'stint', type: ColumnTypes.STINT },
-      { name: 'delta', type: ColumnTypes.DELTA },
-      { name: 'laps', type: ColumnTypes.INTEGER }
+      rankingColumn,
+      driverColumn,
+      teamColumn,
+      timeColumn,
+      stintColumn,
+      deltaColumn,
+      lapsColumn
     ]
   },
 
   race: {
     title: "Race",
     inputColumns: [
-      { name: 'ranking', type: ColumnTypes.INTEGER },
-      { name: 'carnumber', type: ColumnTypes.INTEGER },
-      { name: 'driver', type: ColumnTypes.TEXT },
-      { name: 'team', type: ColumnTypes.TEXT },
-      { name: 'laps', type: ColumnTypes.INTEGER },
-      { name: 'time', type: ColumnTypes.TIME },
-      { name: 'pits', type: ColumnTypes.INTEGER }
+      rankingColumn,
+      carNumberColumn,
+      driverColumn,
+      teamColumn,
+      timeColumn,
+      deltaColumn,
+      pointsColumn
     ],
     outputColumns: [
-      { name: 'ranking', type: ColumnTypes.INTEGER },
-      { name: 'driver', type: ColumnTypes.TEXT },
-      { name: 'team', type: ColumnTypes.TEXT },
-      { name: 'delta', type: ColumnTypes.DELTA },
-      { name: 'pits', type: ColumnTypes.INTEGER }
+      rankingColumn,
+      driverColumn,
+      teamColumn,
+      deltaColumn,
+      pointsColumn
     ]
   }
 

@@ -16,6 +16,9 @@ const teamsThatDontExist = [
 ]
 
 const parseTable = (rawString, inputColumns, outputColumns) => {
+  if (!outputColumns || outputColumns.length === 0) {
+    return
+  }
 
   // Parse into a two-dimensional array
   const rawLines = rawString.trim().split(/[\r\n]+/g)

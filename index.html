@@ -45,7 +45,7 @@
           </li>
         </ul>
 
-        <!-- ============ GENERA TAB ============ -->
+        <!-- ============ GENERAL TAB ============ -->
 
         <div class="tab-content">
           <div v-show="tab === 'step1'">
@@ -105,7 +105,7 @@
             </div>
             <table v-show="!error">
             <tr>
-              <th v-for="column in columns">{{ column.name }}</th>
+              <th v-for="column in template.inputColumns">{{ column.name | capitalize }}</th>
             </tr>
             <tr v-for="row in parsedData">
               <td v-for="cell in row.model">
@@ -141,26 +141,30 @@
           </div>
           <table class="infographic-table">
             <tr class="infographic-table-header">
-              <th ></th>
-              <th>Lap Time</th>
+              <th v-for="column in template.outputColumns">
+                {{ column.label }}
+              </th>
+            <!--  <th>Lap Time</th>
               <th>Stint</th>
               <th>Gap</th>
-              <th>Laps</th>
+              <th>Laps</th>-->
             </tr>
             <tr v-for="row in parsedData" class="infographic-table-row">
-              <td class="infographic-ranking">{{ row.model.ranking.model }}</td>
-              <td class="infographic-driver">
-                <div class="infographic-stripe">
-                  <div v-bind:style="row.model.team.model | stripeStyle"></div>
+              <td v-for="column in template.outputColumns" v-bind:class="infographicCellClass(column)">
+                <div v-if="column.name === 'ranking'">{{ row.model.ranking.model }}</div>
+                <div v-if="column.name === 'driver'">
+                  <div class="infographic-stripe">
+                    <div v-bind:style="row.model.team.model | stripeStyle"></div>
+                  </div><!--
+                  --><span class="firstname">{{ row.model.driver.model | firstName }}</span>
+                  <span class="lastname">{{ row.model.driver.model | lastName }}</span>
                 </div>
-                <span class="firstname">{{ row.model.driver.model | firstName }}</span>
-                <span class="lastname">{{ row.model.driver.model | lastName }}</span>
+                <div v-if="column.name === 'team'">{{ row.model.team.model | shortTeamName }}</div>
+                <div v-if="column.name === 'time'">{{ row.model.time.model }}</div>
+                <div v-if="column.name === 'stint'" v-html="tyres(row.model.stint.model)"></div>
+                <div v-if="column.name === 'delta'">{{ row.model.delta.model }}</div>
+                <div v-if="column.name === 'laps'">{{ row.model.laps.model }}</div>
               </td>
-              <td class="infographic-team">{{ row.model.team.model | shortTeamName }}</td>
-              <td class="infographic-time">{{ row.model.time.model }}</td>
-              <td class="infographic-stint" v-html="tyres(row.model.stint.model)"></td>
-              <td class="infographic-delta">{{ row.model.delta.model }}</td>
-              <td class="infographic-laps">{{ row.model.laps.model }}</td>
             </tr>
           </table>
         </div>

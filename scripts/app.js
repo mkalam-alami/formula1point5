@@ -2,7 +2,12 @@ const vue = new Vue({
   el: '#app',
   data: {
     tab: 'step1',
-    templateName: 'practice',
+    templateName: '',
+    template: {
+      title: '',
+      inputColumns: [],
+      outputColumns: []
+    },
     
     rawData: f1p5.data.demoData,
     parsedData: [],
@@ -17,18 +22,20 @@ const vue = new Vue({
     error: ''
   },
   computed: {
-    template: function () {
-      return f1p5.data.templates[this.templateName]
+  },
+  watch: {
+    templateName: function (value) {
+      this.template = f1p5.data.templates[value]
+      this.runParser()
     }
   },
   methods: {
     runParser: function () {
       try {
-      this.parsedData = f1p5.parser.parseTable(
-        this.rawData,
-        this.template.inputColumns,
-        this.template.outputColumns)
-      this.columns = f1p5.data.classificationTargetColumns
+        this.parsedData = f1p5.parser.parseTable(
+          this.rawData,
+          this.template.inputColumns,
+          this.template.outputColumns)
       } catch (e) {
         console.error(e)
         this.error = e.message
@@ -43,6 +50,11 @@ const vue = new Vue({
               + '<span class="letter">' + letter.toUpperCase().replace('Y', 'H') + '</span>'
               + ')</span> '
         }).join('')
+    },
+    infographicCellClass: function (column) {
+      let classes = {}
+      classes['infographic-' + column.name] = true;
+      return classes
     }
   },
   filters: {
@@ -64,7 +76,7 @@ const vue = new Vue({
   }
 })
 
-vue.runParser()
+vue.templateName = 'practice'
 
 document.getElementById('save').addEventListener('click', async () => {
   domtoimage.toPng(document.getElementsByClassName('infographic')[0])
