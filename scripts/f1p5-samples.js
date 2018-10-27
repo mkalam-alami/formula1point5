@@ -20,27 +20,27 @@ const practice = `Pos 	No 	Driver 	Car 	Time 	Gap 	Laps
 19 	18 	Lance Stroll 	Williams Mercedes 	1:51.896 	+4.394s 	14
 20 	38 	Sean Gelael 	Scuderia Toro Rosso Honda 	1:52.625 	+5.123s 	21`
 
-const qualifying = `Pos 	No 	Driver 	Car 	Q1 	Q2 	Q3 	Laps
-1 	44 	Lewis Hamilton 	Mercedes 	1:22.824 	1:22.051 	1:21.164 	20
-2 	7 	Kimi Räikkönen 	Ferrari 	1:23.096 	1:22.507 	1:21.828 	17
-3 	5 	Sebastian Vettel 	Ferrari 	1:23.348 	1:21.944 	1:21.838 	20
-4 	33 	Max Verstappen 	Red Bull Racing TAG Heuer 	1:23.483 	1:22.416 	1:21.879 	18
-5 	3 	Daniel Ricciardo 	Red Bull Racing TAG Heuer 	1:23.494 	1:22.897 	1:22.152 	17
-6 	20 	Kevin Magnussen 	Haas Ferrari 	1:23.909 	1:23.300 	1:23.187 	17
-7 	8 	Romain Grosjean 	Haas Ferrari 	1:23.671 	1:23.468 	1:23.339 	17
-8 	27 	Nico Hulkenberg 	Renault 	1:23.782 	1:23.544 	1:23.532 	16
-9 	55 	Carlos Sainz 	Renault 	1:23.529 	1:23.061 	1:23.577 	17
-10 	77 	Valtteri Bottas 	Mercedes 	1:23.686 	1:22.089 	DNF 	16
-11 	14 	Fernando Alonso 	McLaren Renault 	1:23.597 	1:23.692 		14
-12 	2 	Stoffel Vandoorne 	McLaren Renault 	1:24.073 	1:23.853 		14
-13 	11 	Sergio Perez 	Force India Mercedes 	1:24.344 	1:24.005 		14
-14 	18 	Lance Stroll 	Williams Mercedes 	1:24.464 	1:24.230 		13
-15 	31 	Esteban Ocon 	Force India Mercedes 	1:24.503 	1:24.786 		16
-16 	28 	Brendon Hartley 	Scuderia Toro Rosso Honda 	1:24.532 			8
-17 	9 	Marcus Ericsson 	Sauber Ferrari 	1:24.556 			9
-18 	16 	Charles Leclerc 	Sauber Ferrari 	1:24.636 			9
-19 	35 	Sergey Sirotkin 	Williams Mercedes 	1:24.922 			8
-20 	10 	Pierre Gasly 	Scuderia Toro Rosso Honda 	1:25.295 			7`
+const qualifying = `POS	NO	DRIVER	CAR	Q1	Q2	Q3	LAPS
+1	3	Daniel Ricciardo	RED BULL RACING TAG HEUER	1:15.866	1:15.845	1:14.759	16
+2	33	Max Verstappen	RED BULL RACING TAG HEUER	1:15.756	1:15.640	1:14.785	15
+3	44	Lewis Hamilton	MERCEDES	1:15.673	1:15.644	1:14.894	20
+4	5	Sebastian Vettel	FERRARI	1:16.089	1:15.715	1:14.970	16
+5	77	Valtteri Bottas	MERCEDES	1:15.580	1:15.923	1:15.160	22
+6	7	Kimi Räikkönen	FERRARI	1:16.446	1:15.996	1:15.330	20
+7	27	Nico Hulkenberg	RENAULT	1:16.498	1:16.126	1:15.827	18
+8	55	Carlos Sainz	RENAULT	1:16.813	1:16.188	1:16.084	18
+9	16	Charles Leclerc	SAUBER FERRARI	1:16.862	1:16.320	1:16.189	20
+10	9	Marcus Ericsson	SAUBER FERRARI	1:16.701	1:16.633	1:16.513	20
+11	31	Esteban Ocon	FORCE INDIA MERCEDES	1:16.252	1:16.844		16
+12	14	Fernando Alonso	MCLAREN RENAULT	1:16.857	1:16.871		12
+13	11	Sergio Perez	FORCE INDIA MERCEDES	1:16.242	1:17.167		16
+14	28	Brendon Hartley	SCUDERIA TORO ROSSO HONDA	1:16.682	1:17.184		12
+15	10	Pierre Gasly	SCUDERIA TORO ROSSO HONDA	1:16.828			11
+16	8	Romain Grosjean	HAAS FERRARI	1:16.911			9
+17	2	Stoffel Vandoorne	MCLAREN RENAULT	1:16.966			6
+18	20	Kevin Magnussen	HAAS FERRARI	1:17.599			9
+19	18	Lance Stroll	WILLIAMS MERCEDES	1:17.689			5
+20	35	Sergey Sirotkin	WILLIAMS MERCEDES	1:17.886			6`
 
 const race = `Pos 	No 	Driver 	Car 	Laps 	Time/Retired 	PTS
 1 	5 	Sebastian Vettel 	Ferrari 	58 	1:29:33.283 	25

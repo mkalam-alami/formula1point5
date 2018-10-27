@@ -1,13 +1,27 @@
 const tyres = [ 'HS', 'US', 'SS', 'S', 'M', 'H', 'SH', 'I', 'W']
 
 const teams = {
-  'Renault': { shortname: 'Renault', color: '#f7f31c' },
-  'Haas Ferrari': { shortname: 'Haas', color: '#535459' },
-  'Sauber Ferrari': { shortname: 'Sauber', color: '#920209' },
-  'McLaren Renault': { shortname: 'McLaren', color: '#e58a17' },
-  'Scuderia Toro Rosso Honda': { shortname: 'Toro Rosso', color: '#3362bd' },
-  'Force India Mercedes': { shortname: 'Force India', color: '#eb9ac3' },
-  'Williams Mercedes': { shortname: 'Williams', color: '#eff0f4' }
+  'renault': { shortname: 'Renault', color: '#f7f31c' },
+  'haas ferrari': { shortname: 'Haas', color: '#535459' },
+  'sauber ferrari': { shortname: 'Sauber', color: '#920209' },
+  'mclaren renault': { shortname: 'McLaren', color: '#e58a17' },
+  'scuderia toro rosso honda': { shortname: 'Toro Rosso', color: '#3362bd' },
+  'force india mercedes': { shortname: 'Force India', color: '#eb9ac3' },
+  'williams mercedes': { shortname: 'Williams', color: '#eff0f4' }
+}
+
+const teamsThatDontExist = [
+  'mercedes',
+  'ferrari',
+  'red bull racing tag heuer',
+]
+
+const ColumnTypes = {
+  INTEGER: 'integer',
+  FLOAT: 'float',
+  TEXT: 'text',
+  TIME: 'time',
+  DELTA: 'delta'
 }
 
 const rankingColumn = { name: 'ranking', type: ColumnTypes.INTEGER, title: '' }
@@ -62,5 +76,6 @@ window.f1p5 = window.f1p5 || {}
 window.f1p5.data = {
   tyres,
   teams,
+  teamsThatDontExist,
   templates
 }

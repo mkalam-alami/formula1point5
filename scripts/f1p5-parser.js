@@ -1,20 +1,3 @@
-
-const ColumnTypes = {
-  INTEGER: 'integer',
-  FLOAT: 'float',
-  TEXT: 'text',
-  TIME: 'time',
-  DELTA: 'delta'
-}
-
-
-// TODO Also list drivers that exist and their teams to display people who didn't join the session
-const teamsThatDontExist = [
-  'Mercedes',
-  'Ferrari',
-  'Red Bull Racing TAG Heuer',
-]
-
 const parseTable = (rawData, rawDataPits, inputColumns, outputColumns) => {
   if (!rawData || !outputColumns || outputColumns.length === 0) {
     return
@@ -67,7 +50,7 @@ const parseTable = (rawData, rawDataPits, inputColumns, outputColumns) => {
 
   // Filter out drivers that don't exist
   rows = rows.filter((row) => {
-    return !teamsThatDontExist.includes(row.model.team.model)
+    return !f1p5.data.teamsThatDontExist.includes(row.model.team.model.toLowerCase())
   })
 
   // Recalculate deltas (based on 'time' or 'q3' column)

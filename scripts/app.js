@@ -75,10 +75,10 @@ const vue = new Vue({
       return str.split(' ')[1]
     },
     shortTeamName: (teamName) => {
-      return teams[teamName] ? teams[teamName].shortname : teamName
+      return f1p5.data.teams[teamName.toLowerCase()] ? f1p5.data.teams[teamName.toLowerCase()].shortname : teamName
     },
     stripeStyle: (teamName) => {
-      return teams[teamName] ? 'background-color: ' + teams[teamName].color : ''
+      return f1p5.data.teams[teamName.toLowerCase()] ? 'background-color: ' + f1p5.data.teams[teamName.toLowerCase()].color : ''
     }
   }
 })
