@@ -230,6 +230,9 @@ input.small {
   min-width: 40px;
   text-align: center;
 }
+.infographic-pits {
+  text-align: center;
+}
 
 .tyre {
   font-family: 'Arial Black', Gadget, sans-serif;

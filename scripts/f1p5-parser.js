@@ -15,22 +15,17 @@ const teamsThatDontExist = [
   'Red Bull Racing TAG Heuer',
 ]
 
-const parseTable = (rawString, inputColumns, outputColumns) => {
-  if (!outputColumns || outputColumns.length === 0) {
+const parseTable = (rawData, rawDataPits, inputColumns, outputColumns) => {
+  if (!rawData || !outputColumns || outputColumns.length === 0) {
     return
   }
 
   // Parse into a two-dimensional array
-  const rawLines = rawString.trim().split(/[\r\n]+/g)
-  const rawTable = rawLines.map(line => {
-    return line.split(/ ?\t/g)
-  })
-  if (rawTable[0][0].match(/[^1-9]/g)) {
-    // Remove header
-    rawTable.splice(0, 1)
-  }
+  const rawTable = parseStringToTable(rawData)
+  const rawTablePits = rawDataPits ? parseStringToTable(rawDataPits) : null
 
   // Transform each line into an object, parse by column type
+  let bestF1Time = null
   let rows = rawTable.map(rawLine => {
     const row = {};
     rawLine.forEach((rawCell, index) => {
@@ -49,8 +44,14 @@ const parseTable = (rawString, inputColumns, outputColumns) => {
           break;
           
           case ColumnTypes.TIME:
-          const timeTokens = rawCell.split(/[^0-9]/g).map(n => parseInt(n))
-          value = timeTokens[0] * 60000 + timeTokens[1] * 1000 + timeTokens[2]
+          value = parseTime(rawCell)
+          break;
+
+          case ColumnTypes.DELTA:
+          if (!bestF1Time && rawCell.includes(':')) {
+            bestF1Time = parseTime(rawCell)
+          }
+          value = rawCell
           break;
 
           default:
@@ -69,21 +70,38 @@ const parseTable = (rawString, inputColumns, outputColumns) => {
     return !teamsThatDontExist.includes(row.model.team.model)
   })
 
-  // Recalculate rankings and deltas
-  const hasDeltaColumn = outputColumns.filter(type => type.name === 'delta').length > 0
-  if (hasDeltaColumn) {
-    // Find leading time
-    let bestTime
-    rows.forEach((row) => {
-      if (!bestTime || row.model.time.model < bestTime) {
-        bestTime = row.model.time.model
-      }
-    })
+  // Recalculate deltas
+  if (hasColumn(outputColumns, 'delta')) {
+    if (!hasColumn(inputColumns, 'time') && bestF1Time) {
+      // Infer time column from deltas + best F1 time
+      let bestDelta = null
+      rows.forEach((row) => {
+        const parsedDelta = parseDelta(row.model.delta.model)
+        if (parsedDelta.isSpecialLabel) {
+          row.model.time = { model: parsedDelta.Value }
+          row.model.delta = { model: parsedDelta.value }
+        } else {
+          bestDelta = bestDelta || parsedDelta.value
+          row.model.time = { model: bestF1Time + parsedDelta.value }
+          row.model.delta = { model: parsedDelta.value - bestDelta }
+        }
+      })
+    }
 
-    // Set deltas
-    rows.map((row) => {
-      row.model.delta.model = row.model.time.model - bestTime
-    })
+    else if (hasColumn(inputColumns, 'time')) {
+      // Find leading time
+      let bestTime
+      rows.forEach((row) => {
+        if (!bestTime || row.model.time.model < bestTime) {
+          bestTime = row.model.time.model
+        }
+      })
+
+      // Set deltas
+      rows.map((row) => {
+        row.model.delta.model = row.model.time.model - bestTime
+      })
+    }
   }
 
   // Set rankings, format times and deltas
@@ -93,6 +111,20 @@ const parseTable = (rawString, inputColumns, outputColumns) => {
     row.model.delta.model = formatDelta(row.model.delta.model)
     return row
   })
+
+  // Count pit stops
+  if (rawTablePits && hasColumn(outputColumns, 'pits')) {
+    formattedRows.forEach(row => {
+      row.model.pits = { model: 0 }
+    })
+    rawTablePits.forEach(pitInfo => {
+      const driverName = pitInfo[2]
+      const driverLines = formattedRows.filter(row => row.model.driver.model === driverName)
+      if (driverLines.length > 0) {
+        driverLines[0].model.pits.model++
+      }
+    })
+  }
 
   // Extract target columns
   const targetRows = formattedRows.map((row) => {
@@ -111,6 +143,49 @@ const parseTable = (rawString, inputColumns, outputColumns) => {
 
 }
 
+const parseStringToTable = (rawData) => {
+  // Parse into a two-dimensional array
+  const rawLines = rawData.trim().split(/[\r\n]+/g)
+  const rawTable = rawLines.map(line => {
+    return line.split(/ ?\t/g)
+  })
+  if (rawTable[0][0].match(/[^1-9]/g)) {
+    // Remove header
+    rawTable.splice(0, 1)
+  }
+  return rawTable
+}
+
+const hasColumn = (columnList, name) => {
+  return columnList.filter(type => type.name === name).length > 0
+}
+
+const parseTime = (str) => {
+  const timeTokens = str.split(/[^0-9]/g).map(n => parseInt(n))
+  let value = 0
+  let minutesIndex = 0
+  if (timeTokens.length === 4) {
+    value += timeTokens[0] * 3600000
+    minutesIndex = 1
+  }
+  value += timeTokens[minutesIndex] * 60000 + timeTokens[minutesIndex + 1] * 1000 + timeTokens[minutesIndex + 2]
+  return value
+}
+
+const parseDelta = (str) => {
+  if (!str) {
+    return 0 // Leader
+  }
+
+  if (str.match(/[^0-9.+s]+/g)) {
+    if (str.includes('lap')) str += ' to F1'
+    return { isSpecialLabel: true, value: str } // usually "DNF", "+n lap"
+  } else {
+    const deltaTokens = str.replace(/[+s]/g, '').split('.').map(n => parseInt(n))
+    return { isSpecialLabel: false, value: deltaTokens[0] * 1000 + deltaTokens[1] }
+  }
+}
+
 const formatTime = (time) => {
   return (Math.floor(time / 60000.) || "0")
     + ":" + digits(Math.floor((time % 60000) / 1000.), 2)
@@ -118,11 +193,16 @@ const formatTime = (time) => {
 }
 
 const formatDelta = (delta) => {
-  if (delta > 0) {
-    return "+" + Math.floor(delta / 1000.)
-      + "." + digits(delta % 1000, 3)
+  if (typeof delta === 'number') {
+    if (delta > 0) {
+      return "+" + Math.floor(delta / 1000.)
+        + "." + digits(delta % 1000, 3)
+    } else {
+      return "";
+    }
   } else {
-    return "";
+    // DNF, +n lap
+    return delta
   }
 }
 

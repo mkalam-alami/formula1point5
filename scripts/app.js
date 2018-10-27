@@ -9,7 +9,8 @@ const vue = new Vue({
       outputColumns: []
     },
     
-    rawData: f1p5.data.demoData,
+    rawData: '',
+    rawDataPits: '',
     parsedData: [],
     columns: [],
 
@@ -26,6 +27,8 @@ const vue = new Vue({
   watch: {
     templateName: function (value) {
       this.template = f1p5.data.templates[value]
+      this.rawData = this.template.samples || ''
+      this.rawDataPits = this.template.samplesPits || ''
       this.runParser()
     }
   },
@@ -34,6 +37,7 @@ const vue = new Vue({
       try {
         this.parsedData = f1p5.parser.parseTable(
           this.rawData,
+          this.rawDataPits,
           this.template.inputColumns,
           this.template.outputColumns)
       } catch (e) {
@@ -76,12 +80,11 @@ const vue = new Vue({
   }
 })
 
-vue.templateName = 'practice'
+vue.templateName = 'race'
 
 document.getElementById('save').addEventListener('click', async () => {
   domtoimage.toPng(document.getElementsByClassName('infographic')[0])
     .then((blob) => {
-      console.log(blob)
       window.saveAs(blob, 'infographic.png')
     })
     .catch((e) => {

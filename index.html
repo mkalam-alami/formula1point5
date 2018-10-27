@@ -89,10 +89,14 @@
 
           <div v-show="tab === 'step2'">
             <h2>1. Fetch data from <a href="https://www.formula1.com/en/results.html">F1.com standings</a></h2>
-            <p>Select all the contents of a table and copy it.</p>
+            <p>Select all the contents of a {{ template.title }} table and copy it.</p>
             <hr />
             <h2>2. Paste your data below</h2>
             <textarea v-model="rawData" v-on:keyup="runParser"></textarea>
+            <div v-if="templateName === 'race'">
+              <p><b>Race data:</b> Also add the contents of the <i>Pit stop summary</i> table below to fill pit stop data.</p>
+              <textarea v-model="rawDataPits" v-on:keyup="runParser"></textarea>
+            </div>
           </div>
 
           <!-- ============ RESULTS TAB ============ -->
@@ -105,7 +109,7 @@
             </div>
             <table v-show="!error">
             <tr>
-              <th v-for="column in template.inputColumns">{{ column.name | capitalize }}</th>
+              <th v-for="column in template.outputColumns">{{ column.name }}</th>
             </tr>
             <tr v-for="row in parsedData">
               <td v-for="cell in row.model">
@@ -151,7 +155,6 @@
             </tr>
             <tr v-for="row in parsedData" class="infographic-table-row">
               <td v-for="column in template.outputColumns" v-bind:class="infographicCellClass(column)">
-                <div v-if="column.name === 'ranking'">{{ row.model.ranking.model }}</div>
                 <div v-if="column.name === 'driver'">
                   <div class="infographic-stripe">
                     <div v-bind:style="row.model.team.model | stripeStyle"></div>
@@ -159,11 +162,9 @@
                   --><span class="firstname">{{ row.model.driver.model | firstName }}</span>
                   <span class="lastname">{{ row.model.driver.model | lastName }}</span>
                 </div>
-                <div v-if="column.name === 'team'">{{ row.model.team.model | shortTeamName }}</div>
-                <div v-if="column.name === 'time'">{{ row.model.time.model }}</div>
-                <div v-if="column.name === 'stint'" v-html="tyres(row.model.stint.model)"></div>
-                <div v-if="column.name === 'delta'">{{ row.model.delta.model }}</div>
-                <div v-if="column.name === 'laps'">{{ row.model.laps.model }}</div>
+                <div v-else-if="column.name === 'team'">{{ row.model.team.model | shortTeamName }}</div>
+                <div v-else-if="column.name === 'stint'" v-html="tyres(row.model.stint.model)"></div>
+                <div v-else>{{ row.model[column.name].model }}</div>
               </td>
             </tr>
           </table>
@@ -175,10 +176,10 @@
     
     <script src="scripts/lib/dom-to-image.js"></script>
     <script src="scripts/lib/FileSaver.min.js"></script>
-    <script src="scripts/lib/bootstrap.bundle.min.js"></script>
     <script src="scripts/lib/vue.js"></script>
 
     <script src="scripts/f1p5-parser.js"></script>
+    <script src="scripts/f1p5-samples.js"></script>
     <script src="scripts/f1p5-data.js"></script>
     <script src="scripts/app.js"></script>
   </body>
