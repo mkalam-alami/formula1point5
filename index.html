@@ -9,7 +9,7 @@
   </head>
   <body>
     <header>
-      <div class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
+      <div class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
           <span class="navbar-brand">
             <img class="logo" src="images/logo-white.png"/>
@@ -31,6 +31,50 @@
         <p>This is just an early prototype! For now only 2018 practice and race sessions are supported. If there is interest this page could someday be made more powerful, eventually supporting all sorts of infographics.</p>
       </div>
       <br />
+
+      <div class="container">
+        <div id="infographic" class="infographic">
+          <div class="infographic-header">
+            <div class="infographic-logo">
+              <img src="images/logo-white.png" />
+            </div>
+            <div class="infographic-title">{{ title }}</div>
+            <div class="infographic-city">{{ city }}</div>
+            <div class="infographic-flag">
+              <img v-bind:src="flagUrl" />
+            </div>
+            <div class="infographic-gp-name">{{ gpName }}</div>
+          </div>
+          <table class="infographic-table">
+            <tr class="infographic-table-header">
+              <th v-for="column in template.outputColumns">
+                {{ column.label }}
+              </th>
+            <!--  <th>Lap Time</th>
+              <th>Stint</th>
+              <th>Gap</th>
+              <th>Laps</th>-->
+            </tr>
+            <tr v-for="row in parsedData" class="infographic-table-row">
+              <td v-for="column in template.outputColumns" v-bind:class="infographicCellClass(column)">
+                <div v-if="column.name === 'driver'">
+                  <div class="infographic-stripe">
+                    <div v-bind:style="row.model.team.model | stripeStyle"></div>
+                  </div><!--
+                  --><span class="firstname">{{ row.model.driver.model | firstName }}</span>
+                  <span class="lastname">{{ row.model.driver.model | lastName }}</span>
+                </div>
+                <div v-else-if="column.name === 'team'">{{ row.model.team.model | shortTeamName }}</div>
+                <div v-else-if="column.name === 'stint'" v-html="tyres(row.model.stint.model)"></div>
+                <div v-else>{{ row.model[column.name].model }}</div>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="text-right">
+          <button class="btn btn-primary btn-sm" id="save">Save result as PNG...</button> 
+        </div>
+      </div>
 
       <div class="container-fluid">
         <ul class="nav nav-tabs">
@@ -122,54 +166,6 @@
         </div>
 
         <hr />
-      </div>
-
-      
-      <div class="container">
-        <h1>
-          Result
-          <button class="btn btn-primary" id="save">Save as PNG...</button>
-        </h1>
-
-        <div id="infographic1" class="infographic">
-          <div class="infographic-header">
-            <div class="infographic-logo">
-              <img src="images/logo-white.png" />
-            </div>
-            <div class="infographic-title">{{ title }}</div>
-            <div class="infographic-city">{{ city }}</div>
-            <div class="infographic-flag">
-              <img v-bind:src="flagUrl" />
-            </div>
-            <div class="infographic-gp-name">{{ gpName }}</div>
-          </div>
-          <table class="infographic-table">
-            <tr class="infographic-table-header">
-              <th v-for="column in template.outputColumns">
-                {{ column.label }}
-              </th>
-            <!--  <th>Lap Time</th>
-              <th>Stint</th>
-              <th>Gap</th>
-              <th>Laps</th>-->
-            </tr>
-            <tr v-for="row in parsedData" class="infographic-table-row">
-              <td v-for="column in template.outputColumns" v-bind:class="infographicCellClass(column)">
-                <div v-if="column.name === 'driver'">
-                  <div class="infographic-stripe">
-                    <div v-bind:style="row.model.team.model | stripeStyle"></div>
-                  </div><!--
-                  --><span class="firstname">{{ row.model.driver.model | firstName }}</span>
-                  <span class="lastname">{{ row.model.driver.model | lastName }}</span>
-                </div>
-                <div v-else-if="column.name === 'team'">{{ row.model.team.model | shortTeamName }}</div>
-                <div v-else-if="column.name === 'stint'" v-html="tyres(row.model.stint.model)"></div>
-                <div v-else>{{ row.model[column.name].model }}</div>
-              </td>
-            </tr>
-          </table>
-        </div>
-        </div>
       </div>
   
     </main>

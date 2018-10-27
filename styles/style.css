@@ -21,7 +21,7 @@ body {
 }
 
 main {
-  padding-top: 120px;
+  padding-top: 20px;
 }
 
 .logo {
@@ -78,6 +78,7 @@ table {
 
 .tab-content {
   padding: 20px;
+  min-height: 400px;
 }
 
 /* Forms */
@@ -123,6 +124,11 @@ input.small {
   padding-top: 0;
   margin: 0;
   border: 0;
+}
+
+#save {
+  margin-top: 10px;
+  margin-right: 45px;
 }
 
 /* Infographic */
