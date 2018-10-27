@@ -31,7 +31,7 @@
         <p>This tool lets you generate infographics for the informal Formula 1.5 championship (<a href="https://www.reddit.com/r/Formula1Point5/">/r/Formula1Point5</a>, <a href="https://twitter.com/Formula1Point5">@Formula1Point5</a>).</p>
       </div>
 
-      <div class="container">
+      <div class="container" v-cloak>
         <div class="row">
         <div class="col-xs-12">
           <div id="infographic" class="infographic">
@@ -86,13 +86,13 @@
           </li>
         </ul>
 
-        <div class="error" v-show="error">
+        <div class="error" v-show="error" v-cloak>
           <b>PARSING ERROR:</b>: {{ error }}
         </div>
       
         <!-- ============ GENERAL TAB ============ -->
 
-        <div class="tab-content">
+        <div class="tab-content" v-cloak>
           <div v-show="tab === 'step1'">
             <div class="row">
             <div class="col-md-6">
@@ -135,7 +135,7 @@
 
           <!-- ============ PARSING TAB ============ -->
 
-          <div v-show="tab === 'step2'">
+          <div v-show="tab === 'step2'" v-cloak>
             <h2>Fetch data from <a href="https://www.formula1.com/en/results.html">F1.com standings</a></h2>
             <p>Select all the contents of a {{ template.title }} table and copy it.</p>
             <hr />
@@ -149,7 +149,7 @@
 
           <!-- ============ RESULTS TAB ============ -->
         
-          <div v-show="tab === 'step3'">
+          <div v-show="tab === 'step3'" v-cloak>
             <h2>Check the parsed results and make any adjustments</h2>
             <p>You can add stint data by hand by using letters <b>{{ supportedTyres }}</b></p>
             <table v-show="!error">

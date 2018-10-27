@@ -15,6 +15,10 @@
 	src: url('Formula1-Wide.ttf');
 }
 
+[v-cloak] {
+  display: none
+}
+
 body {
   font-family: F1Regular;
   padding-bottom: 30px;
