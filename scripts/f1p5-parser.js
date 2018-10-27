@@ -70,12 +70,12 @@ const parseTable = (rawData, rawDataPits, inputColumns, outputColumns) => {
     return !teamsThatDontExist.includes(row.model.team.model)
   })
 
-  // Recalculate deltas
+  // Recalculate deltas (based on 'time' or 'q3' column)
   if (hasColumn(outputColumns, 'delta')) {
-    if (!hasColumn(inputColumns, 'time') && bestF1Time) {
+    if (!hasColumn(inputColumns, 'time') && !hasColumn(inputColumns, 'q3') && bestF1Time) {
       // Infer time column from deltas + best F1 time
       let bestDelta = null
-      rows.forEach((row) => {
+      rows.forEach(row => {
         const parsedDelta = parseDelta(row.model.delta.model)
         if (parsedDelta.isSpecialLabel) {
           row.model.time = { model: parsedDelta.Value }
@@ -88,27 +88,38 @@ const parseTable = (rawData, rawDataPits, inputColumns, outputColumns) => {
       })
     }
 
-    else if (hasColumn(inputColumns, 'time')) {
-      // Find leading time
-      let bestTime
-      rows.forEach((row) => {
-        if (!bestTime || row.model.time.model < bestTime) {
-          bestTime = row.model.time.model
-        }
-      })
-
-      // Set deltas
-      rows.map((row) => {
-        row.model.delta.model = row.model.time.model - bestTime
-      })
+    else {
+      // Set deltas from a reference time column
+      const referenceColumnName = hasColumn(inputColumns, 'time') ? 'time' : 'q3'
+      let bestTime = null
+      if (hasColumn(inputColumns, referenceColumnName)) {
+        rows.map(row => {
+          bestTime = bestTime || row.model[referenceColumnName].model
+          row.model.delta = { model: row.model[referenceColumnName].model - bestTime }
+        })
+      }
     }
   }
 
   // Set rankings, format times and deltas
   const formattedRows = rows.map((row, index) => {
     row.model.ranking = { model: index + 1 }
-    row.model.time.model = formatTime(row.model.time.model)
-    row.model.delta.model = formatDelta(row.model.delta.model)
+    outputColumns.forEach(column => {
+      const cell = row.model[column.name]
+      if (cell && cell.model !== undefined) {
+        switch (column.type) {
+          case 'time':
+          cell.model = formatTime(cell.model)
+          break;
+          
+          case 'delta':
+          cell.model = formatDelta(cell.model)
+          break;
+
+          default:
+        }
+      }
+    })
     return row
   })
 
@@ -149,7 +160,7 @@ const parseStringToTable = (rawData) => {
   const rawTable = rawLines.map(line => {
     return line.split(/ ?\t/g)
   })
-  if (rawTable[0][0].match(/[^1-9]/g)) {
+  if (rawTable[0][0].match(/[^0-9]/g)) {
     // Remove header
     rawTable.splice(0, 1)
   }
@@ -161,6 +172,10 @@ const hasColumn = (columnList, name) => {
 }
 
 const parseTime = (str) => {
+  if (!str || str.match(/[^0-9:.]/g)) {
+    return str // Empty or DNF
+  }
+
   const timeTokens = str.split(/[^0-9]/g).map(n => parseInt(n))
   let value = 0
   let minutesIndex = 0
@@ -187,9 +202,13 @@ const parseDelta = (str) => {
 }
 
 const formatTime = (time) => {
-  return (Math.floor(time / 60000.) || "0")
-    + ":" + digits(Math.floor((time % 60000) / 1000.), 2)
-    + "." + digits(time % 1000, 3)
+  if (time > 0) {
+    return (Math.floor(time / 60000.) || "0")
+      + ":" + digits(Math.floor((time % 60000) / 1000.), 2)
+      + "." + digits(time % 1000, 3)
+  } else {
+    return ""
+  }
 }
 
 const formatDelta = (delta) => {

@@ -19,6 +19,7 @@ const vue = new Vue({
     flagUrl: 'https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_the_United_States.svg',
     gpName: 'United States GP',
 
+    availableTemplates: f1p5.data.templates,
     supportedTyres: 'YUsSMHhIW',
     error: ''
   },
@@ -29,12 +30,14 @@ const vue = new Vue({
       this.template = f1p5.data.templates[value]
       this.rawData = this.template.samples || ''
       this.rawDataPits = this.template.samplesPits || ''
+      this.title = this.template.defaultHeaderTitle || this.title
       this.runParser()
     }
   },
   methods: {
     runParser: function () {
       try {
+        this.error = null
         this.parsedData = f1p5.parser.parseTable(
           this.rawData,
           this.rawDataPits,
@@ -80,7 +83,7 @@ const vue = new Vue({
   }
 })
 
-vue.templateName = 'race'
+vue.templateName = 'qualifying'
 
 document.getElementById('save').addEventListener('click', async () => {
   domtoimage.toPng(document.getElementsByClassName('infographic')[0])

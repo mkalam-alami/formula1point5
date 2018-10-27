@@ -62,6 +62,7 @@ hr {
 }
 
 .error {
+  margin-top: 10px;
   background-color: #ea3220;
   padding: 10px;
 }
@@ -209,12 +210,12 @@ input.small {
 }
 .infographic-stripe {
   display: inline-block;
-  width: 20px;
+  width: 18px;
 }
 .infographic-stripe div {
   height: 12px;
   width: 5px;
-  margin: auto;
+  margin-left: 5px;
 }
 .infographic-driver .lastname {
   font-family: F1Bold;
@@ -235,7 +236,7 @@ input.small {
   min-width: 40px;
   text-align: center;
 }
-.infographic-pits {
+.infographic-pits, .infographic-q1, .infographic-q2, .infographic-q3 {
   text-align: center;
 }
 
