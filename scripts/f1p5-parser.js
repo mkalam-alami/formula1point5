@@ -193,8 +193,8 @@ const parseDelta = (str) => {
   }
 
   if (str.match(/[^0-9.+s]+/g)) {
-    if (str.includes('lap')) str += ' to F1'
-    return { isSpecialLabel: true, value: str } // usually "DNF", "+n lap"
+    if (str.includes('lap')) str = '' // you can't be lapped if the cars don't exist
+    return { isSpecialLabel: true, value: str } // usually "DNF"
   } else {
     const deltaTokens = str.replace(/[+s]/g, '').split('.').map(n => parseInt(n))
     return { isSpecialLabel: false, value: deltaTokens[0] * 1000 + deltaTokens[1] }
