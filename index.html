@@ -28,7 +28,7 @@
     
     <main id="app">
       <div class="container">
-        <p>This is just an early prototype! For now only 2018 practice and race sessions are supported. If there is interest this page could someday be made more powerful, eventually supporting all sorts of infographics.</p>
+        <p>This tool lets you generate infographics for the informal Formula 1.5 championship (<a href="https://www.reddit.com/r/Formula1Point5/">/r/Formula1Point5</a>, <a href="https://twitter.com/Formula1Point5">@Formula1Point5</a>).</p>
       </div>
 
       <div class="container">
@@ -60,7 +60,7 @@
                     <span class="lastname">{{ row.model.driver.model | lastName }}</span>
                   </div>
                   <div v-else-if="column.name === 'team'">{{ row.model.team.model | shortTeamName }}</div>
-                  <div v-else-if="column.name === 'stint'" v-html="tyres(row.model.stint.model)"></div>
+                  <div v-else-if="column.name.includes('stint')" v-html="tyres(row.model[column.name].model)"></div>
                   <div v-else>{{ row.model[column.name].model }}</div>
                 </td>
               </tr>
@@ -76,13 +76,13 @@
       <div class="container-fluid">
         <ul class="nav nav-tabs">
           <li class="nav-item">
-            <a class="nav-link" v-bind:class="{ active: tab === 'step1' }" v-on:click="tab = 'step1'">General</a>
+            <a class="nav-link" v-bind:class="{ active: tab === 'step1' }" v-on:click="tab = 'step1'">1. General</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" v-bind:class="{ active: tab === 'step2' }" v-on:click="tab = 'step2'">Parsing</a>
+            <a class="nav-link" v-bind:class="{ active: tab === 'step2' }" v-on:click="tab = 'step2'">2. Data import</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" v-bind:class="{ active: tab === 'step3' }" v-on:click="tab = 'step3'">Review</a>
+            <a class="nav-link" v-bind:class="{ active: tab === 'step3' }" v-on:click="tab = 'step3'">3. Manual changes</a>
           </li>
         </ul>
 
@@ -113,14 +113,14 @@
                 <table>
                   <tr>
                     <td>Title</td>
-                    <td><input type="text" v-model="title" /></td>
+                    <td style="width: 75%"><input type="text" v-model="title" /></td>
                   </tr>
                   <tr>
                     <td>City</td>
                     <td><input type="text" v-model="city" /></td>
                   </tr>
                   <tr>
-                    <td>Flag (image URL)</td>
+                    <td>Flag URL (<a href="https://commons.wikimedia.org/wiki/Category:SVG_sovereign_state_flags">source</a>)</td>
                     <td><input type="text" class="code" v-model="flagUrl" /></td>
                   </tr>
                   <tr>
@@ -136,10 +136,10 @@
           <!-- ============ PARSING TAB ============ -->
 
           <div v-show="tab === 'step2'">
-            <h2>1. Fetch data from <a href="https://www.formula1.com/en/results.html">F1.com standings</a></h2>
+            <h2>Fetch data from <a href="https://www.formula1.com/en/results.html">F1.com standings</a></h2>
             <p>Select all the contents of a {{ template.title }} table and copy it.</p>
             <hr />
-            <h2>2. Paste your data below</h2>
+            <h2>Paste your data below</h2>
             <textarea v-model="rawData" v-on:keyup="runParser"></textarea>
             <div v-if="templateName === 'race'">
               <p><b>Race data:</b> Also add the contents of the <i>Pit stop summary</i> table below to fill pit stop data.</p>
@@ -151,7 +151,7 @@
         
           <div v-show="tab === 'step3'">
             <h2>Check the parsed results and make any adjustments</h2>
-            <p>You can add stint data by hand, using letters <b>{{ supportedTyres }}</b> (Hypersoft = Y, Supersoft = s, Superhard = h)</p>
+            <p>You can add stint data by hand by using letters <b>{{ supportedTyres }}</b></p>
             <table v-show="!error">
             <tr>
               <th v-for="column in template.outputColumns">{{ column.name }}</th>

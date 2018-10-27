@@ -20,10 +20,8 @@ const vue = new Vue({
     gpName: 'United States GP',
 
     availableTemplates: f1p5.data.templates,
-    supportedTyres: 'YUsSMHhIW',
+    supportedTyres: f1p5.data.tyres.join(' '),
     error: ''
-  },
-  computed: {
   },
   watch: {
     templateName: function (value) {
@@ -49,14 +47,16 @@ const vue = new Vue({
       }
     },
     tyres: function (tyresString) {
-      return tyresString.trim().split('').map(letter => {
-          if (!this.supportedTyres.includes(letter) && this.supportedTyres.includes(letter.toUpperCase())) {
-            letter = letter.toUpperCase()
-          }
-          return '<span class="tyre ' + letter + '">('
-              + '<span class="letter">' + letter.toUpperCase().replace('Y', 'H') + '</span>'
+      return tyresString.trim().split(' ').map(rawTyreCode => {
+        const tyreCode = rawTyreCode.toUpperCase()
+        if (f1p5.data.tyres.includes(tyreCode)) {
+          return '<span class="tyre ' + tyreCode + '">('
+              + '<span class="letter">' + tyreCode + '</span>'
               + ')</span> '
-        }).join('')
+        } else {
+          return ''
+        }
+      }).join('')
     },
     infographicCellClass: function (column) {
       let classes = {}

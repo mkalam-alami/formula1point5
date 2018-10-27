@@ -1,3 +1,5 @@
+const tyres = [ 'HS', 'US', 'SS', 'S', 'M', 'H', 'SH', 'I', 'W']
+
 const teams = {
   'Renault': { shortname: 'Renault', color: '#f7f31c' },
   'Haas Ferrari': { shortname: 'Haas', color: '#535459' },
@@ -58,6 +60,7 @@ const templates = {
 
 window.f1p5 = window.f1p5 || {}
 window.f1p5.data = {
+  tyres,
   teams,
   templates
 }
