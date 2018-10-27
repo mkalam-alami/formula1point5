@@ -1,8 +1,7 @@
 ## Formula 1.5 Infographics generator
 
 This is an early test to generate infographics for [/r/Formula1Point5/](https://www.reddit.com/r/Formula1Point5/).
-
-For now only 2018 practice sessions are supported. If there is interest this page could someday be made nicer and more powerful, eventually supporting all sorts of infographics.
+If there is interest this page could someday be made more powerful, eventually supporting all sorts of infographics.
 
 ### For developers
 
