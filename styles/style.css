@@ -244,8 +244,11 @@ input.small {
   min-width: 40px;
   text-align: center;
 }
-.infographic-pits, .infographic-q1, .infographic-q2, .infographic-q3 {
+.infographic-pits, .infographic-pts, .infographic-q1, .infographic-q2, .infographic-q3 {
   text-align: center;
+}
+.infographic-carpicture img {
+  max-height: 25px;
 }
 
 .tyre {
@@ -285,4 +288,28 @@ input.small {
   min-width: 10px;
   text-align: center;
   font-size: 0.6rem;
+}
+
+/* DHL Style */
+
+.dhl {
+  background-image: url('../images/bg-dhl.jpg');
+  background-size: cover;
+}
+
+.dhl, .dhl .lastname, .dhl .infographic-title, .dhl .infographic-gp-name {
+  font-family: Arial, Helvetica, sans-serif !important;
+  text-transform: uppercase;
+}
+
+.dhl .infographic-title {
+  color: yellow;
+}
+
+.dhl .infographic-gp-name {
+  color: white;
+}
+
+.dhl .infographic-city, .dhl .infographic-flag, .dhl .infographic-stripe, .dhl .firstname {
+  display: none;
 }

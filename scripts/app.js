@@ -58,10 +58,20 @@ const vue = new Vue({
         }
       }).join('')
     },
+    templateClassNames: function () {
+      const classNames = {}
+      if (this.template.style) {
+        classNames[this.template.style] = true
+      }
+      return classNames
+    },
     infographicCellClass: function (column) {
       let classes = {}
       classes['infographic-' + column.name] = true;
       return classes
+    },
+    carPicture: (teamName) => {
+      return f1p5.data.teams[teamName.toLowerCase()] ? 'images/' + f1p5.data.teams[teamName.toLowerCase()].carPicture : ''
     }
   },
   filters: {
@@ -75,7 +85,7 @@ const vue = new Vue({
       return str.split(' ')[1]
     },
     shortTeamName: (teamName) => {
-      return f1p5.data.teams[teamName.toLowerCase()] ? f1p5.data.teams[teamName.toLowerCase()].shortname : teamName
+      return f1p5.data.teams[teamName.toLowerCase()] ? f1p5.data.teams[teamName.toLowerCase()].shortName : teamName
     },
     stripeStyle: (teamName) => {
       return f1p5.data.teams[teamName.toLowerCase()] ? 'background-color: ' + f1p5.data.teams[teamName.toLowerCase()].color : ''

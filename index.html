@@ -34,7 +34,7 @@
       <div class="container" v-cloak>
         <div class="row">
         <div class="col-xs-12">
-          <div id="infographic" class="infographic">
+          <div id="infographic" class="infographic" v-bind:class="templateClassNames()">
             <div class="infographic-header">
               <div class="infographic-logo">
                 <img src="images/logo-white.png" />
@@ -61,6 +61,7 @@
                   </div>
                   <div v-else-if="column.name === 'team'">{{ row.model.team.model | shortTeamName }}</div>
                   <div v-else-if="column.name.includes('stint')" v-html="tyres(row.model[column.name].model)"></div>
+                  <div v-else-if="column.name === 'carpicture'"><img v-bind:src="carPicture(row.model.team.model)" /></div>
                   <div v-else>{{ row.model[column.name].model }}</div>
                 </td>
               </tr>
