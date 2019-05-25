@@ -75,6 +75,11 @@ table {
   line-height: 1rem;
 }
 
+table.manual-changes {
+  margin: auto;
+  margin-top: 10px;
+}
+
 /* Navigation */
 
 .nav-link {
@@ -144,6 +149,12 @@ input.small {
   width: 1024px;
   margin: auto;
   padding-bottom: 20px;
+}
+
+.infographic-buttons {
+  width: 1024px;
+  margin: auto;
+  margin-top: 5px;
 }
 
 .infographic-header {
