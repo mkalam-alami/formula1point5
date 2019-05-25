@@ -15,9 +15,7 @@ export function stintToMarkup(stintString: string, season: Season): string {
     .map((tyreCode) => {
       if (availableTyres.includes(tyreCode)) {
         // Expected tyre classes follow the format [code][year]
-        return '<span class="tyre ' + tyreCode + season.year + '">('
-            + '<span class="letter">' + tyreCode + "</span>"
-            + ")</span> ";
+        return '<span class="tyre ' + tyreCode + season.year + '">' + tyreCode + "</span>";
       } else {
         return "";
       }

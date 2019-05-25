@@ -252,42 +252,50 @@ input.small {
 }
 
 .tyre {
+  display: inline-block;
+  margin-right: 2px;
+  width: 15.5px;
+  line-height: 16px;
+  vertical-align: middle;
   font-family: 'Arial Black', Gadget, sans-serif;
-  font-size: 0.9rem;
+  font-size: 0.7rem;
+  text-align: center;
+}
+.tyre::before {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background: url('../images/tyre.png') no-repeat;
+  background-size: contain;
 }
 .tyre.HS2018 {
-  color: #ffc0cb;
+  color: #ffc0cb; /* TODO migrate to filter */
 }
 .tyre.US2018 {
-  color: #ba4daa;
+  color: #ba4daa; /* TODO migrate to filter */
 }
-.tyre.SS2018, .tyre.S2019 {
-  color: #f50701;
+.tyre.SS2018::before, .tyre.S2019::before {
+  filter:brightness(0.3) sepia(1) saturate(5000%) hue-rotate(0deg); /* red */
 }
-.tyre.S2018, .tyre.M2019 {
-  color: #ffdd00;
+.tyre.S2018::before, .tyre.M2019::before {
+  filter: brightness(0.8) sepia(1) saturate(10000%) hue-rotate(0deg); /* yellow */
 }
-.tyre.M2018, .tyre.H2019 {
-  color: white;
+.tyre.M2018::before, .tyre.H2019::before {
+  filter: none; /* white */
 }
 .tyre.H2018 {
-  color: #43c5ed;
+  color: #43c5ed; /* TODO migrate to filter */
 }
 .tyre.HS2018 {
-  color: #ea6517;
+  color: #ea6517; /* TODO migrate to filter */
 }
 .tyre.I2018 {
-  color: #3ac82c;
+  color: #3ac82c; /* TODO migrate to filter */
 }
 .tyre.W2018 {
-  color: #4491d2;
-}
-.tyre .letter {
-  color: white;
-  display: inline-block;
-  min-width: 10px;
-  text-align: center;
-  font-size: 0.6rem;
+  color: #4491d2; /* TODO migrate to filter */
 }
 
 /* DHL Style */
