@@ -1,28 +1,31 @@
-const tyres = [ 'HS', 'US', 'SS', 'S', 'M', 'H', 'SH', 'I', 'W']
+import * as f1p5samples from './f1p5-samples';
 
-const teams = {
+export const tyres = ['H','M','S']
+
+export const teams = {
   'renault': { shortName: 'Renault', color: '#f7f31c', carPicture: 'car-renault.jpg' },
   'haas ferrari': { shortName: 'Haas', color: '#535459', carPicture: 'car-haas.jpg' },
-  'sauber ferrari': { shortName: 'Sauber', color: '#920209', carPicture: 'car-sauber.jpg' },
+  'alfa romeo racing ferrari': { shortName: 'Alfa Romeo', color: '#920209', carPicture: 'car-sauber.jpg' },
   'mclaren renault': { shortName: 'McLaren', color: '#e58a17', carPicture: 'car-mclaren.jpg' },
   'scuderia toro rosso honda': { shortName: 'Toro Rosso', color: '#3362bd', carPicture: 'car-tororosso.jpg' },
-  'force india mercedes': { shortName: 'Force India', color: '#eb9ac3', carPicture: 'car-forceindia.jpg' },
+  'racing point bwt mercedes': { shortName: 'Racing Point', color: '#eb9ac3', carPicture: 'car-forceindia.jpg' },
   'williams mercedes': { shortName: 'Williams', color: '#eff0f4', carPicture: 'car-williams.jpg' }
-}
+} as any
 
-const teamsThatDontExist = [
+export const teamsThatDontExist = [
   'mercedes',
   'ferrari',
-  'red bull racing tag heuer',
+  'red bull racing honda',
 ]
 
-const ColumnTypes = {
+export const ColumnTypes = {
   INTEGER: 'integer',
   FLOAT: 'float',
   TEXT: 'text',
   TIME: 'time',
   DELTA: 'delta',
-  CARPICTURE: 'picture'
+  CARPICTURE: 'picture',
+  STINT: 'stint'
 }
 
 const rankingColumn = { name: 'ranking', type: ColumnTypes.INTEGER, title: '' }
@@ -44,50 +47,50 @@ const pointsColumn = { name: 'pts', type: ColumnTypes.INTEGER, title: 'Pts' }
 const pitsColumn = { name: 'pits', type: ColumnTypes.INTEGER, title: 'Pit stops' }
 const carPictureColumn = { name: 'carpicture', type: ColumnTypes.CARPICTURE, title: '' }
 
-const templates = {
+export interface TableFormat {
+  title: string
+  defaultHeaderTitle: string
+  inputColumns: any[]
+  outputColumns: any[]
+  style?: string
+  samples?: string
+  samplesPits?: string
+}
+
+export const templates = {
 
   practice: {
     title: "Practice session",
     defaultHeaderTitle: "F1.5 First Practice classification",
-    samples: f1p5.samples.practice,
+    samples: f1p5samples.practice,
     inputColumns: [ rankingColumn, carNumberColumn, driverColumn, teamColumn, lapTimeColumn, deltaColumn, lapsColumn ],
     outputColumns: [ rankingColumn, driverColumn, teamColumn, lapTimeColumn, stintColumn, deltaColumn, lapsColumn ]
-  },
+  } as TableFormat,
 
   qualifying: {
     title: "Qualifying",
     defaultHeaderTitle: "F1.5 Qualifying classification",
-    samples: f1p5.samples.qualifying,
+    samples: f1p5samples.qualifying,
     inputColumns: [ rankingColumn, carNumberColumn, driverColumn, teamColumn, q1Column, q2Column, q3Column, lapsColumn ],
     outputColumns: [ rankingColumn, driverColumn, teamColumn, q1Column, q1StintColumn, q2Column, q2StintColumn, q3Column, q3StintColumn, deltaColumn, lapsColumn ]
-  },
+  } as TableFormat,
 
   race: {
     title: "Race",
     defaultHeaderTitle: "F1.5 Race classification",
-    samples: f1p5.samples.race,
-    samplesPits: f1p5.samples.racePits,
+    samples: f1p5samples.race,
+    samplesPits: f1p5samples.racePits,
     inputColumns: [ rankingColumn, carNumberColumn, driverColumn, teamColumn, lapsColumn, deltaColumn, pointsColumn ],
     outputColumns: [ rankingColumn, driverColumn, teamColumn, deltaColumn, pitsColumn, stintColumn ]
-  },
+  } as TableFormat,
 
   pits: {
-    title: "Fastest pit stops",
+    title: "Fastest pit stops (unfinished)",
     defaultHeaderTitle: "F1.5 Fastest pit stop award",
     style: "dhl",
-    samples: f1p5.samples.race,
+    samples: f1p5samples.race,
     inputColumns: [ rankingColumn, carNumberColumn, driverColumn, teamColumn, lapsColumn, deltaColumn, pointsColumn ],
     outputColumns: [ rankingColumn, teamColumn, driverColumn, carPictureColumn, timeColumn, pointsColumn ]
-  }
+  } as TableFormat
 
-}
-
-// Exports
-
-window.f1p5 = window.f1p5 || {}
-window.f1p5.data = {
-  tyres,
-  teams,
-  teamsThatDontExist,
-  templates
 }

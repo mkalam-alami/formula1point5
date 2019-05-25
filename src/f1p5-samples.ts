@@ -1,4 +1,4 @@
-const practice = `Pos 	No 	Driver 	Car 	Time 	Gap 	Laps
+export const practice = `Pos 	No 	Driver 	Car 	Time 	Gap 	Laps
 1 	44 	Lewis Hamilton 	Mercedes 	1:23.599 		26
 2 	5 	Sebastian Vettel 	Ferrari 	1:23.637 	+0.038s 	18
 3 	16 	Charles Leclerc 	Ferrari 	1:23.673 	+0.074s 	18
@@ -20,7 +20,7 @@ const practice = `Pos 	No 	Driver 	Car 	Time 	Gap 	Laps
 19 	88 	Robert Kubica 	Williams Mercedes 	1:27.914 	+4.315s 	25
 20 	63 	George Russell 	Williams Mercedes 	1:28.740 	+5.141s 	25`
 
-const qualifying = `Pos 	No 	Driver 	Car 	Q1 	Q2 	Q3 	Laps
+export const qualifying = `Pos 	No 	Driver 	Car 	Q1 	Q2 	Q3 	Laps
 1 	44 	Lewis Hamilton 	Mercedes 	1:22.043 	1:21.014 	1:20.486 	18
 2 	77 	Valtteri Bottas 	Mercedes 	1:22.367 	1:21.193 	1:20.598 	19
 3 	5 	Sebastian Vettel 	Ferrari 	1:22.885 	1:21.912 	1:21.190 	16
@@ -42,7 +42,7 @@ const qualifying = `Pos 	No 	Driver 	Car 	Q1 	Q2 	Q3 	Laps
 19 	63 	George Russell 	Williams Mercedes 	1:24.360 			9
 20 	88 	Robert Kubica 	Williams Mercedes 	1:26.067 			8`
 
-const race = `Pos 	No 	Driver 	Car 	Laps 	Time/Retired 	PTS
+export const race = `Pos 	No 	Driver 	Car 	Laps 	Time/Retired 	PTS
 1 	77 	Valtteri Bottas 	Mercedes 	58 	1:25:27.325 	26
 2 	44 	Lewis Hamilton 	Mercedes 	58 	+20.886s 	18
 3 	33 	Max Verstappen 	Red Bull Racing Honda 	58 	+22.520s 	15
@@ -64,7 +64,7 @@ NC 	8 	Romain Grosjean 	Haas Ferrari 	29 	DNF 	0
 NC 	3 	Daniel Ricciardo 	Renault 	28 	DNF 	0
 NC 	55 	Carlos Sainz 	McLaren Renault 	9 	DNF 	0`
 
-const racePits = `Stops 	No 	Driver 	Car 	Lap 	Time of day 	Time 	Total
+export const racePits = `Stops 	No 	Driver 	Car 	Lap 	Time of day 	Time 	Total
 1 	88 	Robert Kubica 	Williams Mercedes 	1 	16:15:28 	32.997 	32.997
 1 	3 	Daniel Ricciardo 	Renault 	1 	16:15:30 	33.027 	33.027
 1 	7 	Kimi Räikkönen 	Alfa Romeo Racing Ferrari 	12 	16:31:50 	23.299 	23.299
@@ -87,14 +87,3 @@ const racePits = `Stops 	No 	Driver 	Car 	Lap 	Time of day 	Time 	Total
 1 	10 	Pierre Gasly 	Red Bull Racing Honda 	37 	17:09:14 	21.269 	21.269
 2 	63 	George Russell 	Williams Mercedes 	42 	17:18:18 	21.543 	43.232
 3 	88 	Robert Kubica 	Williams Mercedes 	44 	17:22:42 	21.889 	1:17.229`
-
-
-// Exports
-
-window.f1p5 = window.f1p5 || {}
-window.f1p5.samples = {
-  practice,
-  qualifying,
-  race,
-  racePits
-}

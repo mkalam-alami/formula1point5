@@ -1,6 +1,9 @@
-const parseTable = (rawData, rawDataPits, inputColumns, outputColumns) => {
+import { ColumnTypes } from './f1p5-data-2019';
+import * as f1p5data from './f1p5-data-2019';
+
+export const parseTable = (rawData: string, rawDataPits: string, inputColumns: Array<any>, outputColumns: Array<any>) => {
   if (!rawData || !outputColumns || outputColumns.length === 0) {
-    return
+    return []
   }
 
   // Parse into a two-dimensional array
@@ -8,10 +11,10 @@ const parseTable = (rawData, rawDataPits, inputColumns, outputColumns) => {
   const rawTablePits = rawDataPits ? parseStringToTable(rawDataPits) : null
 
   // Transform each line into an object, parse by column type
-  let bestF1Time = null
-  let rows = rawTable.map(rawLine => {
-    const row = {};
-    rawLine.forEach((rawCell, index) => {
+  let bestF1Time: number|null = null
+  let rows = rawTable.map((rawLine: any) => {
+    const row: any = {};
+    rawLine.forEach((rawCell: any, index: number) => {
       const columnInfo = inputColumns[index]
       if (columnInfo) {
         const columnName = columnInfo.name
@@ -50,23 +53,23 @@ const parseTable = (rawData, rawDataPits, inputColumns, outputColumns) => {
 
   // Filter out drivers that don't exist
   rows = rows.filter((row) => {
-    return !f1p5.data.teamsThatDontExist.includes(row.model.team.model.toLowerCase())
+    return !f1p5data.teamsThatDontExist.includes(row.model.team.model.toLowerCase())
   })
 
   // Recalculate deltas (based on 'time' or 'q3' column)
   if (hasColumn(outputColumns, 'delta')) {
     if (!hasColumn(inputColumns, 'time') && !hasColumn(inputColumns, 'q3') && bestF1Time) {
       // Infer time column from deltas + best F1 time
-      let bestDelta = null
+      let bestDelta = 0
       rows.forEach(row => {
         const parsedDelta = parseDelta(row.model.delta.model)
-        if (parsedDelta.isSpecialLabel) {
-          row.model.time = { model: parsedDelta.Value }
-          row.model.delta = { model: parsedDelta.value }
+        if (typeof parsedDelta === 'string') {
+          row.model.time = { model: parsedDelta }
+          row.model.delta = { model: parsedDelta }
         } else {
-          bestDelta = bestDelta || parsedDelta.value
-          row.model.time = { model: bestF1Time + parsedDelta.value }
-          row.model.delta = { model: parsedDelta.value - bestDelta }
+          bestDelta = bestDelta || parsedDelta
+          row.model.time = { model: bestF1Time! + parsedDelta }
+          row.model.delta = { model: parsedDelta - bestDelta }
         }
       })
     }
@@ -74,7 +77,7 @@ const parseTable = (rawData, rawDataPits, inputColumns, outputColumns) => {
     else {
       // Set deltas from a reference time column
       const referenceColumnName = hasColumn(inputColumns, 'time') ? 'time' : 'q3'
-      let bestTime = null
+      let bestTime = 0
       if (hasColumn(inputColumns, referenceColumnName)) {
         rows.map(row => {
           bestTime = bestTime || row.model[referenceColumnName].model
@@ -122,7 +125,7 @@ const parseTable = (rawData, rawDataPits, inputColumns, outputColumns) => {
 
   // Extract target columns
   const targetRows = formattedRows.map((row) => {
-    const targetRow = { model: {} }
+    const targetRow: any = { model: {} }
     outputColumns.forEach(columnInfo => {
       if (row.model[columnInfo.name]) {
         targetRow.model[columnInfo.name] = row.model[columnInfo.name]
@@ -137,10 +140,10 @@ const parseTable = (rawData, rawDataPits, inputColumns, outputColumns) => {
 
 }
 
-const parseStringToTable = (rawData) => {
+const parseStringToTable = (rawData: string) => {
   // Parse into a two-dimensional array
   const rawLines = rawData.trim().split(/[\r\n]+/g)
-  const rawTable = rawLines.map(line => {
+  const rawTable = rawLines.map((line: string) => {
     return line.split(/ ?\t/g)
   })
   if (rawTable[0][0].match(/[^0-9]/g)) {
@@ -150,13 +153,15 @@ const parseStringToTable = (rawData) => {
   return rawTable
 }
 
-const hasColumn = (columnList, name) => {
+const hasColumn = (columnList: Array<any>, name: string) => {
   return columnList.filter(type => type.name === name).length > 0
 }
 
-const parseTime = (str) => {
-  if (!str || str.match(/[^0-9:.]/g)) {
-    return str // Empty or DNF
+const parseTime = (str: string): number|null => {
+  if (!str) {
+    return null;
+  } else if (str.match(/[^0-9:.]/g)) {
+    return parseFloat(str) // Empty or DNF
   }
 
   const timeTokens = str.split(/[^0-9]/g).map(n => parseInt(n))
@@ -170,21 +175,21 @@ const parseTime = (str) => {
   return value
 }
 
-const parseDelta = (str) => {
+const parseDelta = (str: string) => {
   if (!str) {
     return 0 // Leader
   }
 
   if (str.match(/[^0-9.+s]+/g)) {
     if (str.includes('lap')) str = '' // you can't be lapped if the cars don't exist
-    return { isSpecialLabel: true, value: str } // usually "DNF"
+    return str // usually "DNF"
   } else {
     const deltaTokens = str.replace(/[+s]/g, '').split('.').map(n => parseInt(n))
-    return { isSpecialLabel: false, value: deltaTokens[0] * 1000 + deltaTokens[1] }
+    return deltaTokens[0] * 1000 + deltaTokens[1]
   }
 }
 
-const formatTime = (time) => {
+const formatTime = (time: number) => {
   if (time > 0) {
     return (Math.floor(time / 60000.) || "0")
       + ":" + digits(Math.floor((time % 60000) / 1000.), 2)
@@ -194,7 +199,7 @@ const formatTime = (time) => {
   }
 }
 
-const formatDelta = (delta) => {
+const formatDelta = (delta: number|string) => {
   if (typeof delta === 'number') {
     if (delta > 0) {
       return "+" + Math.floor(delta / 1000.)
@@ -208,17 +213,10 @@ const formatDelta = (delta) => {
   }
 }
 
-const digits = (number, digits) => {
+const digits = (number: number, digits: number): string => {
   let str = number.toString()
   while (str.length < digits) {
     str =  "0" + str;
   }
   return str
-}
-
-// Exports
-
-window.f1p5 = window.f1p5 ||{}
-window.f1p5.parser = {
-  parseTable
 }

@@ -3,8 +3,12 @@
 This is an early test to generate infographics for [/r/Formula1Point5/](https://www.reddit.com/r/Formula1Point5/).
 If there is interest this page could someday be made more powerful, eventually supporting all sorts of infographics.
 
-### For developers
-
-To get a local version working, simply clone the repo and open `index.html` locally. This tool was developed with [Vue.js](https://vuejs.org/).
+### Developer environment
 
 Contributions are welcome.
+
+1. Clone the repository
+2. `npm install`
+3. `npm build:watch`
+4. Open `index.html`
+5. Start coding :)
