@@ -89,7 +89,7 @@
         </ul>
 
         <div class="error" v-show="error" v-cloak>
-          <b>PARSING ERROR:</b>: {{ error }}
+          <b>PARSING ERROR:</b> {{ error }}
         </div>
       
         <!-- ============ GENERAL TAB ============ -->
@@ -159,9 +159,9 @@
             <tr>
               <th v-for="column in tableFormat.outputColumns">{{ column.name }}</th>
             </tr>
-            <tr v-for="row in parsedData">
-              <td v-for="cell in row.model">
-                <input type="text" v-model="cell.model" class="small" />
+            <tr v-for="(row, rowIndex) in parsedData">
+              <td v-for="(cell, cellIndex) in row.model">
+                <input type="text" v-model="cell.model" class="small" v-bind:tabindex="rowIndex" />
               </td>
             </tr>
             </table>

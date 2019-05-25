@@ -43,47 +43,62 @@ export const qualifying = `Pos 	No 	Driver 	Car 	Q1 	Q2 	Q3 	Laps
 20 	88 	Robert Kubica 	Williams Mercedes 	1:26.067 			8`;
 
 export const race = `Pos 	No 	Driver 	Car 	Laps 	Time/Retired 	PTS
-1 	77 	Valtteri Bottas 	Mercedes 	58 	1:25:27.325 	26
-2 	44 	Lewis Hamilton 	Mercedes 	58 	+20.886s 	18
-3 	33 	Max Verstappen 	Red Bull Racing Honda 	58 	+22.520s 	15
-4 	5 	Sebastian Vettel 	Ferrari 	58 	+57.109s 	12
-5 	16 	Charles Leclerc 	Ferrari 	58 	+58.230s 	10
-6 	20 	Kevin Magnussen 	Haas Ferrari 	58 	+87.156s 	8
-7 	27 	Nico Hulkenberg 	Renault 	57 	+1 lap 	6
-8 	7 	Kimi Räikkönen 	Alfa Romeo Racing Ferrari 	57 	+1 lap 	4
-9 	18 	Lance Stroll 	Racing Point BWT Mercedes 	57 	+1 lap 	2
-10 	26 	Daniil Kvyat 	Scuderia Toro Rosso Honda 	57 	+1 lap 	1
-11 	10 	Pierre Gasly 	Red Bull Racing Honda 	57 	+1 lap 	0
-12 	4 	Lando Norris 	McLaren Renault 	57 	+1 lap 	0
-13 	11 	Sergio Perez 	Racing Point BWT Mercedes 	57 	+1 lap 	0
-14 	23 	Alexander Albon 	Scuderia Toro Rosso Honda 	57 	+1 lap 	0
-15 	99 	Antonio Giovinazzi 	Alfa Romeo Racing Ferrari 	57 	+1 lap 	0
-16 	63 	George Russell 	Williams Mercedes 	56 	+2 laps 	0
-17 	88 	Robert Kubica 	Williams Mercedes 	55 	+3 laps 	0
-NC 	8 	Romain Grosjean 	Haas Ferrari 	29 	DNF 	0
-NC 	3 	Daniel Ricciardo 	Renault 	28 	DNF 	0
-NC 	55 	Carlos Sainz 	McLaren Renault 	9 	DNF 	0`;
+1 	44 	Lewis Hamilton 	Mercedes 	66 	1:35:50.443 	26
+2 	77 	Valtteri Bottas 	Mercedes 	66 	+4.074s 	18
+3 	33 	Max Verstappen 	Red Bull Racing Honda 	66 	+7.679s 	15
+4 	5 	Sebastian Vettel 	Ferrari 	66 	+9.167s 	12
+5 	16 	Charles Leclerc 	Ferrari 	66 	+13.361s 	10
+6 	10 	Pierre Gasly 	Red Bull Racing Honda 	66 	+19.576s 	8
+7 	20 	Kevin Magnussen 	Haas Ferrari 	66 	+28.159s 	6
+8 	55 	Carlos Sainz 	McLaren Renault 	66 	+32.342s 	4
+9 	26 	Daniil Kvyat 	Scuderia Toro Rosso Honda 	66 	+33.056s 	2
+10 	8 	Romain Grosjean 	Haas Ferrari 	66 	+34.641s 	1
+11 	23 	Alexander Albon 	Scuderia Toro Rosso Honda 	66 	+35.445s 	0
+12 	3 	Daniel Ricciardo 	Renault 	66 	+36.758s 	0
+13 	27 	Nico Hulkenberg 	Renault 	66 	+39.241s 	0
+14 	7 	Kimi Räikkönen 	Alfa Romeo Racing Ferrari 	66 	+41.803s 	0
+15 	11 	Sergio Perez 	Racing Point BWT Mercedes 	66 	+46.877s 	0
+16 	99 	Antonio Giovinazzi 	Alfa Romeo Racing Ferrari 	66 	+47.691s 	0
+17 	63 	George Russell 	Williams Mercedes 	65 	+1 lap 	0
+18 	88 	Robert Kubica 	Williams Mercedes 	65 	+1 lap 	0
+NC 	18 	Lance Stroll 	Racing Point BWT Mercedes 	44 	DNF 	0
+NC 	4 	Lando Norris 	McLaren Renault 	44 	DNF 	0`;
 
 export const racePits = `Stops 	No 	Driver 	Car 	Lap 	Time of day 	Time 	Total
-1 	88 	Robert Kubica 	Williams Mercedes 	1 	16:15:28 	32.997 	32.997
-1 	3 	Daniel Ricciardo 	Renault 	1 	16:15:30 	33.027 	33.027
-1 	7 	Kimi Räikkönen 	Alfa Romeo Racing Ferrari 	12 	16:31:50 	23.299 	23.299
-1 	27 	Nico Hulkenberg 	Renault 	13 	16:33:19 	21.588 	21.588
-1 	11 	Sergio Perez 	Racing Point BWT Mercedes 	13 	16:33:28 	23.234 	23.234
-1 	5 	Sebastian Vettel 	Ferrari 	14 	16:34:28 	21.995 	21.995
-1 	20 	Kevin Magnussen 	Haas Ferrari 	14 	16:34:47 	22.388 	22.388
-1 	23 	Alexander Albon 	Scuderia Toro Rosso Honda 	14 	16:34:57 	21.780 	21.780
-1 	44 	Lewis Hamilton 	Mercedes 	15 	16:35:52 	21.515 	21.515
-1 	8 	Romain Grosjean 	Haas Ferrari 	15 	16:36:19 	29.981 	29.981
-1 	4 	Lando Norris 	McLaren Renault 	15 	16:36:25 	21.627 	21.627
-1 	77 	Valtteri Bottas 	Mercedes 	23 	16:47:33 	22.014 	22.014
-1 	33 	Max Verstappen 	Red Bull Racing Honda 	25 	16:50:47 	21.157 	21.157
-1 	26 	Daniil Kvyat 	Scuderia Toro Rosso Honda 	26 	16:52:54 	22.086 	22.086
-1 	63 	George Russell 	Williams Mercedes 	26 	16:53:46 	21.689 	21.689
-1 	18 	Lance Stroll 	Racing Point BWT Mercedes 	27 	16:54:21 	22.471 	22.471
-1 	99 	Antonio Giovinazzi 	Alfa Romeo Racing Ferrari 	27 	16:54:58 	27.172 	27.172
-1 	16 	Charles Leclerc 	Ferrari 	28 	16:55:26 	22.306 	22.306
-2 	88 	Robert Kubica 	Williams Mercedes 	28 	16:58:10 	22.343 	55.340
-1 	10 	Pierre Gasly 	Red Bull Racing Honda 	37 	17:09:14 	21.269 	21.269
-2 	63 	George Russell 	Williams Mercedes 	42 	17:18:18 	21.543 	43.232
-3 	88 	Robert Kubica 	Williams Mercedes 	44 	17:22:42 	21.889 	1:17.229`;
+1 	99 	Antonio Giovinazzi 	Alfa Romeo Racing Ferrari 	6 	15:21:55 	22.381 	22.381
+1 	5 	Sebastian Vettel 	Ferrari 	19 	15:39:39 	23.746 	23.746
+1 	33 	Max Verstappen 	Red Bull Racing Honda 	20 	15:40:52 	22.417 	22.417
+1 	26 	Daniil Kvyat 	Scuderia Toro Rosso Honda 	21 	15:42:48 	22.049 	22.049
+1 	10 	Pierre Gasly 	Red Bull Racing Honda 	22 	15:43:55 	22.563 	22.563
+1 	18 	Lance Stroll 	Racing Point BWT Mercedes 	22 	15:44:26 	23.321 	23.321
+1 	20 	Kevin Magnussen 	Haas Ferrari 	23 	15:45:34 	22.025 	22.025
+1 	3 	Daniel Ricciardo 	Renault 	24 	15:47:07 	22.379 	22.379
+1 	55 	Carlos Sainz 	McLaren Renault 	24 	15:47:10 	21.468 	21.468
+1 	11 	Sergio Perez 	Racing Point BWT Mercedes 	24 	15:47:11 	22.781 	22.781
+1 	16 	Charles Leclerc 	Ferrari 	25 	15:47:53 	23.646 	23.646
+1 	23 	Alexander Albon 	Scuderia Toro Rosso Honda 	25 	15:48:27 	23.591 	23.591
+1 	77 	Valtteri Bottas 	Mercedes 	26 	15:49:04 	22.034 	22.034
+1 	8 	Romain Grosjean 	Haas Ferrari 	26 	15:49:40 	22.379 	22.379
+1 	4 	Lando Norris 	McLaren Renault 	26 	15:50:07 	21.579 	21.579
+1 	44 	Lewis Hamilton 	Mercedes 	27 	15:50:16 	22.265 	22.265
+1 	7 	Kimi Räikkönen 	Alfa Romeo Racing Ferrari 	28 	15:53:02 	22.342 	22.342
+1 	88 	Robert Kubica 	Williams Mercedes 	31 	15:58:16 	21.954 	21.954
+1 	63 	George Russell 	Williams Mercedes 	32 	15:59:33 	22.442 	22.442
+1 	27 	Nico Hulkenberg 	Renault 	35 	16:02:40 	22.193 	22.193
+2 	5 	Sebastian Vettel 	Ferrari 	40 	16:08:48 	21.643 	45.389
+2 	99 	Antonio Giovinazzi 	Alfa Romeo Racing Ferrari 	41 	16:12:09 	23.507 	45.888
+2 	33 	Max Verstappen 	Red Bull Racing Honda 	43 	16:12:43 	22.540 	44.957
+2 	77 	Valtteri Bottas 	Mercedes 	45 	16:15:21 	22.018 	44.052
+2 	26 	Daniil Kvyat 	Scuderia Toro Rosso Honda 	45 	16:16:25 	33.821 	55.870
+2 	20 	Kevin Magnussen 	Haas Ferrari 	45 	16:16:29 	22.992 	45.017
+2 	23 	Alexander Albon 	Scuderia Toro Rosso Honda 	45 	16:16:34 	37.345 	1:00.936
+2 	44 	Lewis Hamilton 	Mercedes 	46 	16:16:43 	22.511 	44.776
+2 	3 	Daniel Ricciardo 	Renault 	45 	16:16:58 	22.702 	45.081
+2 	11 	Sergio Perez 	Racing Point BWT Mercedes 	45 	16:17:06 	22.896 	45.677
+2 	63 	George Russell 	Williams Mercedes 	44 	16:17:28 	21.846 	44.288
+2 	16 	Charles Leclerc 	Ferrari 	46 	16:17:34 	21.638 	45.284
+2 	7 	Kimi Räikkönen 	Alfa Romeo Racing Ferrari 	45 	16:17:38 	22.549 	44.891
+2 	88 	Robert Kubica 	Williams Mercedes 	44 	16:17:59 	22.142 	44.096
+2 	10 	Pierre Gasly 	Red Bull Racing Honda 	46 	16:18:00 	22.095 	44.658
+2 	8 	Romain Grosjean 	Haas Ferrari 	46 	16:18:13 	22.732 	45.111
+2 	55 	Carlos Sainz 	McLaren Renault 	46 	16:18:55 	21.545 	43.013`;

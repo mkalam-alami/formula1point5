@@ -7,7 +7,7 @@ If there is interest this page could someday be made more powerful, eventually s
 
 1. Clone the repository
 2. `npm install`
-3. `npm build:watch`
+3. `npm run build:watch`
 4. Open `index.html`
 5. Start coding :)
 

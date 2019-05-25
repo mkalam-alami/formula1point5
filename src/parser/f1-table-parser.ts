@@ -1,13 +1,20 @@
 import { ColumnType, IColumn } from "../data/columns";
 import { Season } from "../data/seasons";
 
+export interface IBindableModel {
+  model: string;
+}
+export interface IBindableRow {
+  model: {[key: string]: IBindableModel};
+}
+
 export const parseTable = (
       rawData: string,
       rawDataPits: string,
       inputColumns: IColumn[],
       outputColumns: IColumn[],
       season: Season
-    ) => {
+    ): IBindableRow[] => {
   if (!rawData || !outputColumns || outputColumns.length === 0) {
     return [];
   }
@@ -17,49 +24,54 @@ export const parseTable = (
   const rawTablePits = rawDataPits ? parseStringToTable(rawDataPits) : null;
 
   // Transform each line into an object, parse by column type
-  let bestF1Time: number|null = null;
-  let rows = rawTable.map((rawLine: any) => {
-    const row: any = {};
-    rawLine.forEach((rawCell: any, index: number) => {
+  let bestF1Time = 0;
+  let rows: IBindableRow[] = rawTable.map((rawLine: string[]) => {
+    const row: IBindableRow = { model: {} };
+    rawLine.forEach((rawCell: string, index: number) => {
       const columnInfo = inputColumns[index];
       if (columnInfo) {
         const columnName = columnInfo.name;
-        let value;
+        let value = "";
 
-        switch (columnInfo.type as ColumnType) {
-          case "integer":
-          value = parseInt(rawCell, 10);
-          break;
+        if (rawCell) {
+          switch (columnInfo.type as ColumnType) {
+            case "integer":
+            value = parseInt(rawCell, 10).toString();
+            break;
 
-          case "float":
-          value = parseFloat(rawCell);
-          break;
+            case "float":
+            value = parseFloat(rawCell).toString();
+            break;
 
-          case "time":
-          value = parseTime(rawCell);
-          break;
+            case "time":
+            value = parseTime(rawCell).toString();
+            break;
 
-          case "delta":
-          if (!bestF1Time && rawCell.includes(":")) {
-            bestF1Time = parseTime(rawCell);
+            case "delta":
+            if (!bestF1Time && rawCell.includes(":")) {
+              bestF1Time = parseTime(rawCell);
+            }
+            value = rawCell;
+            break;
+
+            default:
+            value = rawCell;
           }
-          value = rawCell;
-          break;
-
-          default:
-          value = rawCell;
-
         }
 
-        row[columnName] = { model: value };
+        row.model[columnName] = { model: value };
       }
     });
-    return { model: row };
+    return row;
   });
 
   // Filter out drivers that don't exist
   rows = rows.filter((row) => {
-    return !season.teamsThatDontExist.includes(row.model.team.model.toLowerCase());
+    if (row.model.team) {
+      return !season.teamsThatDontExist.includes(row.model.team.model.toLowerCase());
+    } else {
+      return true;
+    }
   });
 
   // Recalculate deltas (based on 'time' or 'q3' column)
@@ -74,8 +86,8 @@ export const parseTable = (
           row.model.delta = { model: parsedDelta };
         } else {
           bestDelta = bestDelta || parsedDelta;
-          row.model.time = { model: bestF1Time! + parsedDelta };
-          row.model.delta = { model: parsedDelta - bestDelta };
+          row.model.time = { model: (bestF1Time! + parsedDelta).toString() };
+          row.model.delta = { model: (parsedDelta - bestDelta).toString() };
         }
       });
     } else {
@@ -84,8 +96,9 @@ export const parseTable = (
       let bestTime = 0;
       if (hasColumn(inputColumns, referenceColumnName)) {
         rows.map((row) => {
-          bestTime = bestTime || row.model[referenceColumnName].model;
-          row.model.delta = { model: row.model[referenceColumnName].model - bestTime };
+          const rowTime = parseFloat(row.model[referenceColumnName].model);
+          bestTime = bestTime || rowTime;
+          row.model.delta = { model: (rowTime - bestTime).toString() };
         });
       }
     }
@@ -93,7 +106,7 @@ export const parseTable = (
 
   // Set rankings, format times and deltas
   const formattedRows = rows.map((row, index) => {
-    row.model.ranking = { model: index + 1 };
+    row.model.ranking = { model: (index + 1).toString() };
     outputColumns.forEach((column) => {
       const cell = row.model[column.name];
       if (cell && cell.model !== undefined) {
@@ -115,21 +128,24 @@ export const parseTable = (
 
   // Count pit stops
   if (rawTablePits && hasColumn(outputColumns, "pits")) {
-    formattedRows.forEach((row) => {
-      row.model.pits = { model: 0 };
-    });
+    const pitCount = formattedRows.map((_) => 0);
     rawTablePits.forEach((pitInfo) => {
       const driverName = pitInfo[2];
-      const driverLines = formattedRows.filter((row) => row.model.driver.model === driverName);
-      if (driverLines.length > 0) {
-        driverLines[0].model.pits.model++;
+      const driverIndex = formattedRows.findIndex((row) => row.model.driver.model === driverName);
+      if (driverIndex !== -1) {
+        pitCount[driverIndex]++;
       }
+    });
+    formattedRows.forEach((row, index) => {
+      row.model.pits = {
+        model: pitCount[index].toString()
+      };
     });
   }
 
   // Extract target columns
   const targetRows = formattedRows.map((row) => {
-    const targetRow: any = { model: {} };
+    const targetRow: IBindableRow = { model: {} };
     outputColumns.forEach((columnInfo) => {
       if (row.model[columnInfo.name]) {
         targetRow.model[columnInfo.name] = row.model[columnInfo.name];
@@ -161,9 +177,9 @@ const hasColumn = (columnList: IColumn[], name: string) => {
   return columnList.filter((type) => type.name === name).length > 0;
 };
 
-const parseTime = (str: string): number|null => {
+const parseTime = (str: string): number => {
   if (!str) {
-    return null;
+    throw Error("time is empty");
   } else if (str.match(/[^0-9:.]/g)) {
     return parseFloat(str); // Empty or DNF
   }
@@ -193,7 +209,8 @@ const parseDelta = (str: string) => {
   }
 };
 
-const formatTime = (time: number) => {
+const formatTime = (timeString: string) => {
+  const time = parseFloat(timeString);
   if (time > 0) {
     return (Math.floor(time / 60000.) || "0")
       + ":" + digits(Math.floor((time % 60000) / 1000.), 2)
@@ -203,17 +220,18 @@ const formatTime = (time: number) => {
   }
 };
 
-const formatDelta = (delta: number|string) => {
-  if (typeof delta === "number") {
+const formatDelta = (deltaString: string) => {
+  try {
+    const delta = parseFloat(deltaString);
     if (delta > 0) {
       return "+" + Math.floor(delta / 1000.)
         + "." + digits(delta % 1000, 3);
     } else {
       return "";
     }
-  } else {
-    // DNF, +n lap
-    return delta;
+  } catch (e) {
+    // Non numeric deltas ("DNF", "+n lap")
+    return deltaString;
   }
 };
 
