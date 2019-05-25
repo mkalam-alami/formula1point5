@@ -22,6 +22,8 @@
 body {
   font-family: F1Regular;
   padding-bottom: 30px;
+  background: url('../images/bg-page.jpg');
+  background-size: cover;
 }
 
 main {
@@ -30,6 +32,14 @@ main {
 
 .logo {
   height: 35px;
+}
+
+.navbar {
+  box-shadow: 0 0px 4px rgba(0, 0, 0, 0.4);
+}
+
+.tab-content {
+  background-color: #222;
 }
 
 h1 {
@@ -84,6 +94,13 @@ table.manual-changes {
 
 .nav-link {
   cursor: pointer;
+}
+
+.nav-link:hover {
+  opacity: .7;
+}
+.nav-link.active:hover {
+  opacity: 1.;
 }
 
 .tab-content {
