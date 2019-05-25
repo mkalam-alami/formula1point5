@@ -160,8 +160,8 @@
               <th v-for="column in tableFormat.outputColumns">{{ column.name }}</th>
             </tr>
             <tr v-for="(row, rowIndex) in parsedData">
-              <td v-for="(cell, cellIndex) in row.model">
-                <input type="text" v-model="cell.model" class="small" v-bind:tabindex="rowIndex" />
+              <td v-for="(cell, cellKey, cellIndex) in row.model">
+                <input type="text" v-model="cell.model" class="small" v-bind:tabindex="cellIndex * 1000 + rowIndex" />
               </td>
             </tr>
             </table>
