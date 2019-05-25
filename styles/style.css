@@ -214,12 +214,12 @@ input.small {
 }
 .infographic-stripe {
   display: inline-block;
-  width: 18px;
+  width: 16px;
 }
 .infographic-stripe div {
   height: 12px;
-  width: 5px;
-  margin-left: 5px;
+  width: 4px;
+  margin-left: 4px;
 }
 .infographic-laptime {
   text-align: center;

@@ -37,7 +37,7 @@ export const season2019 = new Season({
   tyres: ["H", "M", "S"],
   teams: {
     "alfa romeo racing ferrari": { shortName: "Alfa Romeo", color: "#920209", carPicture: "car-sauber.jpg" },
-    "haas ferrari": { shortName: "Haas", color: "#535459", carPicture: "car-haas.jpg" },
+    "haas ferrari": { shortName: "Haas", color: "#edd49b", carPicture: "car-haas.jpg" },
     "mclaren renault": { shortName: "McLaren", color: "#e58a17", carPicture: "car-mclaren.jpg" },
     "racing point bwt mercedes": { shortName: "Racing Point", color: "#eb9ac3", carPicture: "car-forceindia.jpg" },
     "renault": { shortName: "Renault", color: "#f7f31c", carPicture: "car-renault.jpg" },
