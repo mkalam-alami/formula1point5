@@ -1,6 +1,6 @@
 import domtoimage from "dom-to-image";
 import "file-saver";
-import Vue from "vue";
+import Vue, { VNode } from "vue";
 import { IColumn } from "./data/columns";
 import { Season, season2019 } from "./data/seasons";
 import { availableTableFormats, ITableFormat } from "./data/tables";
@@ -8,6 +8,7 @@ import * as f1TableParser from "./parser/f1-table-parser";
 import { stintToMarkup } from "./parser/stint-parser";
 
 interface IVueData {
+  modelVersion: number;
   tab: string;
   tableFormatName: string;
   tableFormat: ITableFormat;
@@ -24,9 +25,12 @@ interface IVueData {
   currentSeason: Season;
   availableTableFormats: any;
   error: string;
+  saveDate?: number;
 }
 
 const defaultData: IVueData = {
+  modelVersion: 1, // Increment this after every model change to prevent currupted localStorage saves
+
   tab: "step1",
   tableFormatName: "",
   tableFormat: {
@@ -51,18 +55,31 @@ const defaultData: IVueData = {
 
   currentSeason: season2019,
   availableTableFormats,
-  error: "",
+  error: ""
 };
 
 // tslint:disable-next-line: no-unused-expression
 new Vue({
   el: "#app",
-  data: defaultData,
+  data() {
+    try {
+      const savedDataString = localStorage.getItem("data");
+      if (savedDataString) {
+        const savedData: IVueData = JSON.parse(savedDataString);
+        if (savedData.modelVersion === defaultData.modelVersion
+            && Date.now() - savedData.saveDate! < 24 * 3600 * 1000 /* expire after 1 day */) {
+          return savedData;
+        }
+      }
+    } catch (e) {
+      // NOP
+    }
+    return deepCopy(defaultData);
+  },
   watch: {
     tableFormatName(value: string) {
       this.tableFormat = (availableTableFormats as any)[value];
       this.rawData = this.tableFormat.samples || "";
-      this.rawDataPits = this.tableFormat.samplesPits || "";
       this.title = this.tableFormat.defaultHeaderTitle || this.title;
       this.runParser();
     },
@@ -104,7 +121,7 @@ new Vue({
         return "";
       }
     },
-    save: async () => {
+    exportAsPng: async () => {
       const blob = await domtoimage.toPng(document.getElementsByClassName("infographic")[0]);
       try {
         window.saveAs(blob, "infographic.png");
@@ -112,6 +129,17 @@ new Vue({
         console.error(e);
       }
     },
+    saveState() {
+      const save = deepCopy(this.$data as IVueData);
+      save.saveDate = Date.now();
+      localStorage.setItem("data", JSON.stringify(save));
+    },
+    discardState() {
+      if (confirm("'Reset the page? All filled forms will be discarded.")) {
+        localStorage.removeItem("data");
+        location.reload();
+      }
+    }
   },
   filters: {
     json: (data: any) => {
@@ -136,10 +164,17 @@ new Vue({
   },
   computed: {
     supportedTyres() {
-      return this.currentSeason.tyres.join(" ");
+      return (this as IVueData).currentSeason.tyres.join(" ");
     }
   },
   mounted() {
     this.tableFormatName = "qualifying";
   },
+  beforeUpdate() {
+    this.saveState();
+  }
 });
+
+function deepCopy<T>(data: T): T {
+  return JSON.parse(JSON.stringify(data));
+}
