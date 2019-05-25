@@ -221,19 +221,9 @@ input.small {
   width: 5px;
   margin-left: 5px;
 }
-.infographic-driver .lastname {
-  font-family: F1Bold;
-}
-.infographic-time {
+.infographic-laptime {
   text-align: center;
   font-family: F1Bold;
-}
-.infographic-stint {
-  min-width: 150px;
-}
-.infographic-stint, .infographic-q1stint, .infographic-q2stint, .infographic-q3stint {
-  font-size: 0.2rem;
-  line-height: 0;
 }
 .infographic-delta {
   min-width: 40px;
@@ -246,6 +236,7 @@ input.small {
 }
 .infographic-pits, .infographic-pts, .infographic-q1, .infographic-q2, .infographic-q3 {
   text-align: center;
+  font-family: F1Bold;
 }
 .infographic-carpicture img {
   max-height: 25px;
@@ -253,7 +244,7 @@ input.small {
 
 .tyre {
   display: inline-block;
-  margin-right: 2px;
+  margin-right: 3px;
   width: 15.5px;
   line-height: 16px;
   vertical-align: middle;
