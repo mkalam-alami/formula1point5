@@ -8,25 +8,22 @@ export interface ITeams {[key: string]: ITeam; }
 
 export class Season {
 
+  public year: number;
   public tyres: string[];
   public teams: ITeams;
   public teamsThatDontExist: string[];
 
-  constructor({tyres, teams, teamsThatDontExist}:
+  constructor({year, tyres, teams, teamsThatDontExist}:
     {
+      year: number,
       tyres: string[],
       teams: ITeams,
       teamsThatDontExist: string[],
     }) {
+      this.year = year;
       this.tyres = tyres;
       this.teams = teams;
       this.teamsThatDontExist = teamsThatDontExist;
-  }
-
-  get caseSensitiveTyres(): boolean {
-    const tyreString = this.tyres.join(" ");
-    return tyreString.toLowerCase() === tyreString
-      || tyreString.toUpperCase() === tyreString;
   }
 
   get spacesOptionalForTyres(): boolean {
@@ -36,6 +33,7 @@ export class Season {
 }
 
 export const season2019 = new Season({
+  year: 2019,
   tyres: ["H", "M", "S"],
   teams: {
     "alfa romeo racing ferrari": { shortName: "Alfa Romeo", color: "#920209", carPicture: "car-sauber.jpg" },
@@ -54,6 +52,7 @@ export const season2019 = new Season({
 });
 
 export const season2018 = new Season({
+  year: 2018,
   tyres: [ "HS", "US", "SS", "S", "M", "H", "SH", "I", "W"],
   teams: {
     "force india mercedes": { shortName: "Force India", color: "#eb9ac3", carPicture: "car-forceindia.jpg" },

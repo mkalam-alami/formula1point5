@@ -2,9 +2,10 @@ import domtoimage from "dom-to-image";
 import "file-saver";
 import Vue from "vue";
 import { IColumn } from "./data/columns";
-import { season2019 } from "./data/seasons";
+import { Season, season2019 } from "./data/seasons";
 import { availableTableFormats, ITableFormat } from "./data/tables";
-import * as f1p5parser from "./parser";
+import * as f1TableParser from "./parser/f1-table-parser";
+import { stintToMarkup } from "./parser/stint-parser";
 
 interface IVueData {
   tab: string;
@@ -20,8 +21,8 @@ interface IVueData {
   flagUrl: string;
   gpName: string;
 
+  currentSeason: Season;
   availableTableFormats: any;
-  supportedTyres: string;
   error: string;
 }
 
@@ -48,8 +49,8 @@ const defaultData: IVueData = {
   flagUrl: "https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_the_United_States.svg",
   gpName: "United States GP",
 
+  currentSeason: season2019,
   availableTableFormats,
-  supportedTyres: season2019.tyres.join(" "),
   error: "",
 };
 
@@ -70,7 +71,7 @@ new Vue({
     runParser() {
       try {
         this.error = null as any;
-        this.parsedData = f1p5parser.parseTable(
+        this.parsedData = f1TableParser.parseTable(
           this.rawData,
           this.rawDataPits,
           this.tableFormat.inputColumns,
@@ -82,16 +83,7 @@ new Vue({
       }
     },
     tyres(tyresString: string) {
-      return tyresString.trim().split(" ").map((rawTyreCode) => {
-        const tyreCode = rawTyreCode.toUpperCase();
-        if (season2019.tyres.includes(tyreCode)) {
-          return '<span class="tyre ' + tyreCode + '">('
-              + '<span class="letter">' + tyreCode + "</span>"
-              + ")</span> ";
-        } else {
-          return "";
-        }
-      }).join("");
+      return stintToMarkup(tyresString, season2019);
     },
     tableFormatClassNames() {
       const classNames: {[key: string]: boolean} = {};
@@ -105,9 +97,9 @@ new Vue({
       classes["infographic-" + column.name] = true;
       return classes;
     },
-    carPicture: (teamName: string) => {
-      if (season2019.teams[teamName.toLowerCase()]) {
-        return "images/" + season2019.teams[teamName.toLowerCase()].carPicture;
+    carPicture(teamName: string) {
+      if (this.currentSeason.teams[teamName.toLowerCase()]) {
+        return "images/" + this.currentSeason.teams[teamName.toLowerCase()].carPicture;
       } else {
         return "";
       }
@@ -140,6 +132,11 @@ new Vue({
       } else {
         return "";
       }
+    }
+  },
+  computed: {
+    supportedTyres() {
+      return this.currentSeason.tyres.join(" ");
     }
   },
   mounted() {

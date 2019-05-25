@@ -1,5 +1,5 @@
-import { ColumnType, IColumn } from "./data/columns";
-import { Season } from "./data/seasons";
+import { ColumnType, IColumn } from "../data/columns";
+import { Season } from "../data/seasons";
 
 export const parseTable = (
       rawData: string,

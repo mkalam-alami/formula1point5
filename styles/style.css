@@ -255,31 +255,31 @@ input.small {
   font-family: 'Arial Black', Gadget, sans-serif;
   font-size: 0.9rem;
 }
-.tyre.HS {
+.tyre.HS2018 {
   color: #ffc0cb;
 }
-.tyre.US {
+.tyre.US2018 {
   color: #ba4daa;
 }
-.tyre.SS {
+.tyre.SS2018, .tyre.S2019 {
   color: #f50701;
 }
-.tyre.S {
+.tyre.S2018, .tyre.M2019 {
   color: #ffdd00;
 }
-.tyre.M {
+.tyre.M2018, .tyre.H2019 {
   color: white;
 }
-.tyre.H {
+.tyre.H2018 {
   color: #43c5ed;
 }
-.tyre.HS {
+.tyre.HS2018 {
   color: #ea6517;
 }
-.tyre.I {
+.tyre.I2018 {
   color: #3ac82c;
 }
-.tyre.W {
+.tyre.W2018 {
   color: #4491d2;
 }
 .tyre .letter {
