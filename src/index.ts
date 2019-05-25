@@ -1,33 +1,34 @@
-import Vue from 'vue';
 import domtoimage from 'dom-to-image';
 import 'file-saver';
+import Vue from 'vue';
 
-import * as f1p5data from './f1p5-data-2019';
-import * as f1p5parser from './f1p5-parser';
+import * as season2019 from './data/season-2019';
+import * as f1p5parser from './parser';
+import { Column, TableFormat, availableTableFormats } from './data/tables';
 
 interface Data {
   tab: string;
-  templateName: string,
-  template: f1p5data.TableFormat,
+  tableFormatName: string,
+  tableFormat: TableFormat,
   rawData: string,
   rawDataPits: string,
   parsedData: any[],
-  columns: any[],
+  columns: Column[],
 
   title: string,
   city: string,
   flagUrl: string,
   gpName: string,
 
-  availableTemplates: any,
+  availableTableFormats: any,
   supportedTyres: string,
   error: string
 }
 
 const defaultData: Data = {
   tab: 'step1',
-  templateName: '',
-  template: {
+  tableFormatName: '',
+  tableFormat: {
     title: '',
     inputColumns: [],
     outputColumns: [],
@@ -47,20 +48,20 @@ const defaultData: Data = {
   flagUrl: 'https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_the_United_States.svg',
   gpName: 'United States GP',
 
-  availableTemplates: f1p5data.templates,
-  supportedTyres: f1p5data.tyres.join(' '),
+  availableTableFormats,
+  supportedTyres: season2019.tyres.join(' '),
   error: ''
 }
 
-const vue = new Vue({
+new Vue({
   el: '#app',
   data: defaultData,
   watch: {
-    templateName: function (value: string) {
-      this.template = (f1p5data.templates as any)[value]
-      this.rawData = this.template.samples || ''
-      this.rawDataPits = this.template.samplesPits || ''
-      this.title = this.template.defaultHeaderTitle || this.title
+    tableFormatName: function (value: string) {
+      this.tableFormat = (availableTableFormats as any)[value]
+      this.rawData = this.tableFormat.samples || ''
+      this.rawDataPits = this.tableFormat.samplesPits || ''
+      this.title = this.tableFormat.defaultHeaderTitle || this.title
       this.runParser()
     }
   },
@@ -71,8 +72,8 @@ const vue = new Vue({
         this.parsedData = f1p5parser.parseTable(
           this.rawData,
           this.rawDataPits,
-          this.template.inputColumns,
-          this.template.outputColumns)
+          this.tableFormat.inputColumns,
+          this.tableFormat.outputColumns)
       } catch (e) {
         console.error(e)
         this.error = e.message
@@ -81,7 +82,7 @@ const vue = new Vue({
     tyres: function (tyresString: string) {
       return tyresString.trim().split(' ').map(rawTyreCode => {
         const tyreCode = rawTyreCode.toUpperCase()
-        if (f1p5data.tyres.includes(tyreCode)) {
+        if (season2019.tyres.includes(tyreCode)) {
           return '<span class="tyre ' + tyreCode + '">('
               + '<span class="letter">' + tyreCode + '</span>'
               + ')</span> '
@@ -90,10 +91,10 @@ const vue = new Vue({
         }
       }).join('')
     },
-    templateClassNames: function () {
-      const classNames = {} as any
-      if (this.template.style) {
-        classNames[this.template.style] = true
+    tableFormatClassNames: function () {
+      const classNames: {[key: string]: boolean} = {}
+      if (this.tableFormat.style) {
+        classNames[this.tableFormat.style] = true
       }
       return classNames
     },
@@ -103,7 +104,7 @@ const vue = new Vue({
       return classes
     },
     carPicture: (teamName: string) => {
-      return f1p5data.teams[teamName.toLowerCase()] ? 'images/' + f1p5data.teams[teamName.toLowerCase()].carPicture : ''
+      return season2019.teams[teamName.toLowerCase()] ? 'images/' + season2019.teams[teamName.toLowerCase()].carPicture : ''
     },
     save: async () => {
       const blob = await domtoimage.toPng(document.getElementsByClassName('infographic')[0])
@@ -125,13 +126,13 @@ const vue = new Vue({
       return str.split(' ')[1]
     },
     shortTeamName: (teamName: string) => {
-      return f1p5data.teams[teamName.toLowerCase()] ? f1p5data.teams[teamName.toLowerCase()].shortName : teamName
+      return season2019.teams[teamName.toLowerCase()] ? season2019.teams[teamName.toLowerCase()].shortName : teamName
     },
     stripeStyle: (teamName: string) => {
-      return f1p5data.teams[teamName.toLowerCase()] ? 'background-color: ' + f1p5data.teams[teamName.toLowerCase()].color : ''
+      return season2019.teams[teamName.toLowerCase()] ? 'background-color: ' + season2019.teams[teamName.toLowerCase()].color : ''
     }
   },
   mounted: function () {
-    this.templateName = 'qualifying'
+    this.tableFormatName = 'qualifying'
   }
 })

@@ -1,21 +1,21 @@
-import * as f1p5samples from './f1p5-samples';
+import * as f1p5samples from './tables-samples';
 
-export const tyres = ['H','M','S']
+export const tyres = [ 'HS', 'US', 'SS', 'S', 'M', 'H', 'SH', 'I', 'W']
 
 export const teams = {
   'renault': { shortName: 'Renault', color: '#f7f31c', carPicture: 'car-renault.jpg' },
   'haas ferrari': { shortName: 'Haas', color: '#535459', carPicture: 'car-haas.jpg' },
-  'alfa romeo racing ferrari': { shortName: 'Alfa Romeo', color: '#920209', carPicture: 'car-sauber.jpg' },
+  'sauber ferrari': { shortName: 'Sauber', color: '#920209', carPicture: 'car-sauber.jpg' },
   'mclaren renault': { shortName: 'McLaren', color: '#e58a17', carPicture: 'car-mclaren.jpg' },
   'scuderia toro rosso honda': { shortName: 'Toro Rosso', color: '#3362bd', carPicture: 'car-tororosso.jpg' },
-  'racing point bwt mercedes': { shortName: 'Racing Point', color: '#eb9ac3', carPicture: 'car-forceindia.jpg' },
+  'force india mercedes': { shortName: 'Force India', color: '#eb9ac3', carPicture: 'car-forceindia.jpg' },
   'williams mercedes': { shortName: 'Williams', color: '#eff0f4', carPicture: 'car-williams.jpg' }
-} as any
+}
 
 export const teamsThatDontExist = [
   'mercedes',
   'ferrari',
-  'red bull racing honda',
+  'red bull racing tag heuer',
 ]
 
 export const ColumnTypes = {
@@ -47,16 +47,6 @@ const pointsColumn = { name: 'pts', type: ColumnTypes.INTEGER, title: 'Pts' }
 const pitsColumn = { name: 'pits', type: ColumnTypes.INTEGER, title: 'Pit stops' }
 const carPictureColumn = { name: 'carpicture', type: ColumnTypes.CARPICTURE, title: '' }
 
-export interface TableFormat {
-  title: string
-  defaultHeaderTitle: string
-  inputColumns: any[]
-  outputColumns: any[]
-  style?: string
-  samples?: string
-  samplesPits?: string
-}
-
 export const templates = {
 
   practice: {
@@ -65,7 +55,7 @@ export const templates = {
     samples: f1p5samples.practice,
     inputColumns: [ rankingColumn, carNumberColumn, driverColumn, teamColumn, lapTimeColumn, deltaColumn, lapsColumn ],
     outputColumns: [ rankingColumn, driverColumn, teamColumn, lapTimeColumn, stintColumn, deltaColumn, lapsColumn ]
-  } as TableFormat,
+  },
 
   qualifying: {
     title: "Qualifying",
@@ -73,7 +63,7 @@ export const templates = {
     samples: f1p5samples.qualifying,
     inputColumns: [ rankingColumn, carNumberColumn, driverColumn, teamColumn, q1Column, q2Column, q3Column, lapsColumn ],
     outputColumns: [ rankingColumn, driverColumn, teamColumn, q1Column, q1StintColumn, q2Column, q2StintColumn, q3Column, q3StintColumn, deltaColumn, lapsColumn ]
-  } as TableFormat,
+  },
 
   race: {
     title: "Race",
@@ -82,15 +72,15 @@ export const templates = {
     samplesPits: f1p5samples.racePits,
     inputColumns: [ rankingColumn, carNumberColumn, driverColumn, teamColumn, lapsColumn, deltaColumn, pointsColumn ],
     outputColumns: [ rankingColumn, driverColumn, teamColumn, deltaColumn, pitsColumn, stintColumn ]
-  } as TableFormat,
+  },
 
   pits: {
-    title: "Fastest pit stops (unfinished)",
+    title: "Fastest pit stops",
     defaultHeaderTitle: "F1.5 Fastest pit stop award",
     style: "dhl",
     samples: f1p5samples.race,
     inputColumns: [ rankingColumn, carNumberColumn, driverColumn, teamColumn, lapsColumn, deltaColumn, pointsColumn ],
     outputColumns: [ rankingColumn, teamColumn, driverColumn, carPictureColumn, timeColumn, pointsColumn ]
-  } as TableFormat
+  }
 
 }

@@ -1,7 +1,7 @@
-import { ColumnTypes } from './f1p5-data-2019';
-import * as f1p5data from './f1p5-data-2019';
+import * as f1p5data from "./data/season-2019";
+import { ColumnType, Column } from "./data/tables";
 
-export const parseTable = (rawData: string, rawDataPits: string, inputColumns: Array<any>, outputColumns: Array<any>) => {
+export const parseTable = (rawData: string, rawDataPits: string, inputColumns: Column[], outputColumns: Column[]) => {
   if (!rawData || !outputColumns || outputColumns.length === 0) {
     return []
   }
@@ -20,20 +20,20 @@ export const parseTable = (rawData: string, rawDataPits: string, inputColumns: A
         const columnName = columnInfo.name
         let value
 
-        switch (columnInfo.type) {
-          case ColumnTypes.INTEGER: 
+        switch (columnInfo.type as ColumnType) {
+          case 'integer': 
           value = parseInt(rawCell)
           break;
           
-          case ColumnTypes.FLOAT: 
+          case 'float': 
           value = parseFloat(rawCell)
           break;
           
-          case ColumnTypes.TIME:
+          case 'time':
           value = parseTime(rawCell)
           break;
 
-          case ColumnTypes.DELTA:
+          case 'delta':
           if (!bestF1Time && rawCell.includes(':')) {
             bestF1Time = parseTime(rawCell)
           }
@@ -153,7 +153,7 @@ const parseStringToTable = (rawData: string) => {
   return rawTable
 }
 
-const hasColumn = (columnList: Array<any>, name: string) => {
+const hasColumn = (columnList: Column[], name: string) => {
   return columnList.filter(type => type.name === name).length > 0
 }
 

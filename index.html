@@ -35,7 +35,7 @@
       <div class="container" v-cloak>
         <div class="row">
         <div class="col-xs-12">
-          <div id="infographic" class="infographic" v-bind:class="templateClassNames()">
+          <div id="infographic" class="infographic" v-bind:class="tableFormatClassNames()">
             <div class="infographic-header">
               <div class="infographic-logo">
                 <img src="images/logo-white.png" />
@@ -49,10 +49,10 @@
             </div>
             <table class="infographic-table">
               <tr class="infographic-table-header">
-                <th v-for="column in template.outputColumns">{{ column.title }}</th>
+                <th v-for="column in tableFormat.outputColumns">{{ column.title }}</th>
               </tr>
               <tr v-for="row in parsedData" class="infographic-table-row">
-                <td v-for="column in template.outputColumns" v-bind:class="infographicCellClass(column)">
+                <td v-for="column in tableFormat.outputColumns" v-bind:class="infographicCellClass(column)">
                   <div v-if="column.name === 'driver'">
                     <div class="infographic-stripe">
                       <div v-bind:style="row.model.team.model | stripeStyle"></div>
@@ -98,13 +98,13 @@
           <div v-show="tab === 'step1'">
             <div class="row">
             <div class="col-md-6">
-              <h2>Choose template</h2>
+              <h2>Choose table format</h2>
 
-              <p>Currently selected: <b>{{ template.title }}</b></p>
+              <p>Currently selected: <b>{{ tableFormat.title }}</b></p>
 
-              <span v-for="(availableTemplate, availableTemplateName) in availableTemplates">
-                <button class="btn btn-secondary" v-bind:class="{ disabled: templateName === availableTemplateName }"
-                  v-on:click="templateName = availableTemplateName">{{ availableTemplate.title }}</button>
+              <span v-for="(availableTableFormat, availableFormatName) in availableTableFormats">
+                <button class="btn btn-secondary" v-bind:class="{ disabled: tableFormatName === availableFormatName }"
+                  v-on:click="tableFormatName = availableFormatName">{{ availableTableFormat.title }}</button>
                  &nbsp;
               </span>
 
@@ -139,11 +139,11 @@
 
           <div v-show="tab === 'step2'" v-cloak>
             <h2>Fetch data from <a href="https://www.formula1.com/en/results.html">F1.com standings</a></h2>
-            <p>Select all the contents of a {{ template.title }} table and copy it.</p>
+            <p>Select all the contents of a {{ tableFormat.title }} table and copy it.</p>
             <hr />
             <h2>Paste your data below</h2>
             <textarea v-model="rawData" v-on:keyup="runParser"></textarea>
-            <div v-if="templateName === 'race'">
+            <div v-if="tableFormatName === 'race'">
               <p><b>Race data:</b> Also add the contents of the <i>Pit stop summary</i> table below to fill pit stop data.</p>
               <textarea v-model="rawDataPits" v-on:keyup="runParser"></textarea>
             </div>
@@ -156,7 +156,7 @@
             <p>You can add stint data by hand by using letters <b>{{ supportedTyres }}</b></p>
             <table v-show="!error">
             <tr>
-              <th v-for="column in template.outputColumns">{{ column.name }}</th>
+              <th v-for="column in tableFormat.outputColumns">{{ column.name }}</th>
             </tr>
             <tr v-for="row in parsedData">
               <td v-for="cell in row.model">
