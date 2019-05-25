@@ -18,7 +18,7 @@ export const practice = `Pos 	No 	Driver 	Car 	Time 	Gap 	Laps
 17 	3 	Daniel Ricciardo 	Renault 	1:25.634 	+2.035s 	16
 18 	4 	Lando Norris 	McLaren Renault 	1:25.966 	+2.367s 	31
 19 	88 	Robert Kubica 	Williams Mercedes 	1:27.914 	+4.315s 	25
-20 	63 	George Russell 	Williams Mercedes 	1:28.740 	+5.141s 	25`
+20 	63 	George Russell 	Williams Mercedes 	1:28.740 	+5.141s 	25`;
 
 export const qualifying = `Pos 	No 	Driver 	Car 	Q1 	Q2 	Q3 	Laps
 1 	44 	Lewis Hamilton 	Mercedes 	1:22.043 	1:21.014 	1:20.486 	18
@@ -40,7 +40,7 @@ export const qualifying = `Pos 	No 	Driver 	Car 	Q1 	Q2 	Q3 	Laps
 17 	10 	Pierre Gasly 	Red Bull Racing Honda 	1:23.020 			6
 18 	55 	Carlos Sainz 	McLaren Renault 	1:23.084 			6
 19 	63 	George Russell 	Williams Mercedes 	1:24.360 			9
-20 	88 	Robert Kubica 	Williams Mercedes 	1:26.067 			8`
+20 	88 	Robert Kubica 	Williams Mercedes 	1:26.067 			8`;
 
 export const race = `Pos 	No 	Driver 	Car 	Laps 	Time/Retired 	PTS
 1 	77 	Valtteri Bottas 	Mercedes 	58 	1:25:27.325 	26
@@ -62,7 +62,7 @@ export const race = `Pos 	No 	Driver 	Car 	Laps 	Time/Retired 	PTS
 17 	88 	Robert Kubica 	Williams Mercedes 	55 	+3 laps 	0
 NC 	8 	Romain Grosjean 	Haas Ferrari 	29 	DNF 	0
 NC 	3 	Daniel Ricciardo 	Renault 	28 	DNF 	0
-NC 	55 	Carlos Sainz 	McLaren Renault 	9 	DNF 	0`
+NC 	55 	Carlos Sainz 	McLaren Renault 	9 	DNF 	0`;
 
 export const racePits = `Stops 	No 	Driver 	Car 	Lap 	Time of day 	Time 	Total
 1 	88 	Robert Kubica 	Williams Mercedes 	1 	16:15:28 	32.997 	32.997
@@ -86,4 +86,4 @@ export const racePits = `Stops 	No 	Driver 	Car 	Lap 	Time of day 	Time 	Total
 2 	88 	Robert Kubica 	Williams Mercedes 	28 	16:58:10 	22.343 	55.340
 1 	10 	Pierre Gasly 	Red Bull Racing Honda 	37 	17:09:14 	21.269 	21.269
 2 	63 	George Russell 	Williams Mercedes 	42 	17:18:18 	21.543 	43.232
-3 	88 	Robert Kubica 	Williams Mercedes 	44 	17:22:42 	21.889 	1:17.229`
+3 	88 	Robert Kubica 	Williams Mercedes 	44 	17:22:42 	21.889 	1:17.229`;

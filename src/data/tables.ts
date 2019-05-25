@@ -1,49 +1,19 @@
-import * as samples from './tables-samples';
-export type ColumnType = 'text' | 'integer' | 'float' | 'time' | 'delta' | 'picture' | 'stint'
+import availableColumns, { IColumn } from "./columns";
+import * as samples from "./tables-samples";
 
-export interface Column {
-  name: string
-  title: string
-  type: ColumnType
+export interface ITableFormat {
+  title: string;
+  defaultHeaderTitle: string;
+  inputColumns: IColumn[];
+  outputColumns: IColumn[];
+  style?: string;
+  samples?: string;
+  samplesPits?: string;
 }
-
-export interface TableFormat {
-  title: string
-  defaultHeaderTitle: string
-  inputColumns: Column[]
-  outputColumns: Column[]
-  style?: string
-  samples?: string
-  samplesPits?: string
-}
-
-
-export class AvailableColumns {
-  ranking: Column = { name: 'ranking', type: 'integer', title: '' }
-  carNumber: Column = { name: 'carnumber', type: 'integer', title: '' }
-  driver: Column = { name: 'driver', type: 'text', title: '' }
-  team: Column = { name: 'team', type: 'text', title: '' }
-  time: Column = { name: 'time', type: 'time', title: 'Lap Time' }
-  lapTime: Column = { name: 'laptime', type: 'time', title: 'Time' }
-  q1: Column = { name: 'q1', type: 'time', title: 'Q1 Lap Time' }
-  q2: Column = { name: 'q2', type: 'time', title: 'Q2 Lap Time' }
-  q3: Column = { name: 'q3', type: 'time', title: 'Q3 Lap Time' }
-  stint: Column = { name: 'stint', type: 'stint', title: 'Stint' }
-  q1Stint: Column = { name: 'q1stint', type: 'stint', title: '' }
-  q2Stint: Column = { name: 'q2stint', type: 'stint', title: '' }
-  q3Stint: Column = { name: 'q3stint', type: 'stint', title: '' }
-  delta: Column = { name: 'delta', type: 'delta', title: 'Gap' }
-  laps: Column = { name: 'laps', type: 'integer', title: 'Laps' }
-  points: Column = { name: 'pts', type: 'integer', title: 'Pts' }
-  pits: Column = { name: 'pits', type: 'integer', title: 'Pit stops' }
-  carPicture: Column = { name: 'carpicture', type: 'picture', title: '' }
-}
-
-export const availableColumns = new AvailableColumns();
 
 export class AvailableTableFormats {
 
-  practice: TableFormat = {
+  public practice: ITableFormat = {
     title: "Practice session",
     defaultHeaderTitle: "F1.5 First Practice classification",
     samples: samples.practice,
@@ -54,7 +24,7 @@ export class AvailableTableFormats {
       availableColumns.team,
       availableColumns.lapTime,
       availableColumns.delta,
-      availableColumns.laps
+      availableColumns.laps,
     ],
     outputColumns: [
       availableColumns.ranking,
@@ -63,11 +33,11 @@ export class AvailableTableFormats {
       availableColumns.lapTime,
       availableColumns.stint,
       availableColumns.delta,
-      availableColumns.laps
-    ]
-  }
+      availableColumns.laps,
+    ],
+  };
 
-  qualifying: TableFormat = {
+  public qualifying: ITableFormat = {
     title: "Qualifying",
     defaultHeaderTitle: "F1.5 Qualifying classification",
     samples: samples.qualifying,
@@ -79,7 +49,7 @@ export class AvailableTableFormats {
       availableColumns.q1,
       availableColumns.q2,
       availableColumns.q3,
-      availableColumns.laps
+      availableColumns.laps,
     ],
     outputColumns: [
       availableColumns.ranking,
@@ -92,11 +62,11 @@ export class AvailableTableFormats {
       availableColumns.q3,
       availableColumns.q3Stint,
       availableColumns.delta,
-      availableColumns.laps
-    ]
-  }
+      availableColumns.laps,
+    ],
+  };
 
-  race: TableFormat = {
+  public race: ITableFormat = {
     title: "Race",
     defaultHeaderTitle: "F1.5 Race classification",
     samples: samples.race,
@@ -108,7 +78,7 @@ export class AvailableTableFormats {
       availableColumns.team,
       availableColumns.laps,
       availableColumns.delta,
-      availableColumns.points
+      availableColumns.points,
     ],
     outputColumns: [
       availableColumns.ranking,
@@ -116,11 +86,11 @@ export class AvailableTableFormats {
       availableColumns.team,
       availableColumns.delta,
       availableColumns.pits,
-      availableColumns.stint
-    ]
-  }
+      availableColumns.stint,
+    ],
+  };
 
-  pits: TableFormat = {
+  public pits: ITableFormat = {
     title: "Fastest pit stops (unfinished)",
     defaultHeaderTitle: "F1.5 Fastest pit stop award",
     style: "dhl",
@@ -132,7 +102,7 @@ export class AvailableTableFormats {
       availableColumns.team,
       availableColumns.laps,
       availableColumns.delta,
-      availableColumns.points
+      availableColumns.points,
     ],
     outputColumns: [
       availableColumns.ranking,
@@ -140,9 +110,9 @@ export class AvailableTableFormats {
       availableColumns.driver,
       availableColumns.carPicture,
       availableColumns.time,
-      availableColumns.points
-    ]
-  }
+      availableColumns.points,
+    ],
+  };
 
 }
 
