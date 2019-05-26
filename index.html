@@ -32,44 +32,48 @@
         <div class="row">
           <div class="col-xs-12">
             <p>This tool lets you generate infographics for the informal Formula 1.5 championship (<a href="https://www.reddit.com/r/Formula1Point5/">/r/Formula1Point5</a>, <a href="https://twitter.com/Formula1Point5">@Formula1Point5</a>). Feel free to report any issues or ideas <a href="https://github.com/mkalam-alami/formula1point5/">on Github</a>.</p>
-
-            <div id="infographic" class="infographic" v-bind:class="tableFormatClassNames()" v-cloak>
-              <div class="infographic-header">
-                <div class="infographic-logo">
-                  <img src="images/logo-white.png" />
-                </div>
-                <div class="infographic-title">{{ title }}</div>
-                <div class="infographic-city">{{ city }}</div>
-                <div class="infographic-flag">
-                  <img v-bind:src="flagUrl" />
-                </div>
-                <div class="infographic-gp-name">{{ gpName }}</div>
-              </div>
-              <table class="infographic-table">
-                <tr class="infographic-table-header">
-                  <th v-for="column in tableFormat.outputColumns">{{ column.title }}</th>
-                </tr>
-                <tr v-for="row in parsedData" class="infographic-table-row">
-                  <td v-for="column in tableFormat.outputColumns" v-bind:class="infographicCellClass(column)">
-                    <div v-if="column.name === 'driver'">
-                      <div class="infographic-stripe">
-                        <div v-bind:style="row.model.team.model | stripeStyle"></div>
-                      </div><!--
-                      --><span class="firstname">{{ row.model.driver.model | firstName }}</span>
-                      <span class="lastname">{{ row.model.driver.model | lastName }}</span>
-                    </div>
-                    <div v-else-if="column.name === 'team'">{{ row.model.team.model | shortTeamName }}</div>
-                    <div v-else-if="column.name.includes('stint')" v-html="tyres(row.model[column.name].model)"></div>
-                    <div v-else-if="column.name === 'carpicture'"><img v-bind:src="carPicture(row.model.team.model)" /></div>
-                    <div v-else>{{ row.model[column.name].model }}</div>
-                  </td>
-                </tr>
-              </table>
-            </div>
             
-            <div class="text-right infographic-buttons" v-cloak>
-              <button class="btn btn-error btn-sm" v-on:click="discardState()">Reset</button> 
-              <button class="btn btn-primary btn-sm" v-on:click="exportAsPng()">Export result as PNG...</button> 
+            <div class="infographic-container" v-cloak>
+
+              <div id="infographic" class="infographic" v-bind:class="tableFormatClassNames()">
+                <div class="infographic-header">
+                  <div class="infographic-logo">
+                    <img src="images/logo-white.png" />
+                  </div>
+                  <div class="infographic-title">{{ title }}</div>
+                  <div class="infographic-city">{{ city }}</div>
+                  <div class="infographic-flag">
+                    <img v-bind:src="flagUrl" />
+                  </div>
+                  <div class="infographic-gp-name">{{ gpName }}</div>
+                </div>
+                <table class="infographic-table">
+                  <tr class="infographic-table-header">
+                    <th v-for="column in tableFormat.outputColumns">{{ column.title }}</th>
+                  </tr>
+                  <tr v-for="row in parsedData" class="infographic-table-row">
+                    <td v-for="column in tableFormat.outputColumns" v-bind:class="infographicCellClass(column)">
+                      <div v-if="column.name === 'driver'">
+                        <div class="infographic-stripe">
+                          <div v-bind:style="row.model.team.model | stripeStyle"></div>
+                        </div><!--
+                        --><span class="firstname">{{ row.model.driver.model | firstName }}</span>
+                        <span class="lastname">{{ row.model.driver.model | lastName }}</span>
+                      </div>
+                      <div v-else-if="column.name === 'team'">{{ row.model.team.model | shortTeamName }}</div>
+                      <div v-else-if="column.name.includes('stint')" v-html="tyres(row.model[column.name].model)"></div>
+                      <div v-else-if="column.name === 'carpicture'"><img v-bind:src="carPicture(row.model.team.model)" /></div>
+                      <div v-else>{{ row.model[column.name].model }}</div>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+
+              <div class="infographic-buttons">
+                <button class="btn btn-error btn-sm" v-on:click="discardState()">Reset</button> 
+                <button class="btn btn-primary btn-sm" v-on:click="exportAsPng()">Export result as PNG...</button> 
+              </div>
+
             </div>
           </div>
         </div>
@@ -91,10 +95,11 @@
         <div class="error" v-show="error" v-cloak>
           <b>PARSING ERROR:</b> {{ error }}
         </div>
-      
-        <!-- ============ GENERAL TAB ============ -->
 
         <div class="tab-content" v-cloak>
+        
+          <!-- ============ GENERAL TAB ============ -->
+
           <div v-show="tab === 'step1'">
             <div class="row">
             <div class="col-md-6">
@@ -102,11 +107,13 @@
 
               <p>Currently selected: <b>{{ tableFormat.title }}</b></p>
 
-              <span v-for="(availableTableFormat, availableFormatName) in availableTableFormats">
-                <button class="btn btn-secondary" v-bind:class="{ disabled: tableFormatName === availableFormatName }"
-                  v-on:click="tableFormatName = availableFormatName">{{ availableTableFormat.title }}</button>
-                 &nbsp
-              </span>
+              <p><div class="btn-toolbar">
+                <div v-for="(availableTableFormat, availableFormatName) in availableTableFormats">
+                  <button class="btn btn-secondary" v-bind:class="{ disabled: tableFormatName === availableFormatName }"
+                    v-on:click="tableFormatName = availableFormatName">{{ availableTableFormat.title }}</button>
+                  &nbsp
+                </div>
+              </div></p>
 
             </div>
             <div class="col-md-6">
@@ -137,7 +144,7 @@
 
           <!-- ============ PARSING TAB ============ -->
 
-          <div v-show="tab === 'step2'" v-cloak>
+          <div v-show="tab === 'step2'">
             <h2>Fetch data from <a href="https://www.formula1.com/en/results.html">F1.com standings</a></h2>
             <p>Select all the contents of a {{ tableFormat.title }} table and copy it.</p>
             <hr />
@@ -153,7 +160,7 @@
 
           <!-- ============ RESULTS TAB ============ -->
         
-          <div v-show="tab === 'step3'" v-cloak>
+          <div v-show="tab === 'step3'">
             <h2>Check the parsed results and make any adjustments</h2>
             <p>You may find additional information for filling the gaps on <a href="http://twitter.com/f1">F1's twitter account</a> and/or <a href="https://www.formula1.com/en/f1-live.html">Live timing website</a>.</p>
             <p>You can add stint data by hand by using letters <b>{{ supportedTyres }}</b></p>
@@ -171,7 +178,6 @@
 
         </div>
       </div>
-  
     </main>
     
     <script src="dist/bundle.js"></script>

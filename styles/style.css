@@ -40,6 +40,7 @@ main {
 
 .tab-content {
   background-color: #222;
+  overflow: scroll;
 }
 
 h1 {
@@ -159,19 +160,27 @@ input.small {
 
 /* Infographic */
 
+.infographic-container {
+  width: 1024px;
+  margin: auto;
+}
+
 .infographic {
   background-color: #15151e;
   color: white;
   font-family: F1Regular;
-  width: 1024px;
-  margin: auto;
+  margin-bottom: 5px;
   padding-bottom: 20px;
 }
 
 .infographic-buttons {
-  width: 1024px;
-  margin: auto;
-  margin-top: 5px;
+  text-align: right;
+}
+@media (max-width: 1024px) {
+  .infographic-buttons {
+    text-align: left;
+    margin-bottom: 20px;
+  }
 }
 
 .infographic-header {
