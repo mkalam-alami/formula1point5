@@ -1,0 +1,72 @@
+<html>
+<head>
+<link rel="stylesheet" href="./styles/style.css" />
+<style>
+.infographic {
+  width: 1024px;
+  height: 576px;
+  margin: auto;
+  position: relative;
+  background-size: cover;
+  box-sizing: border-box;
+}
+
+.podium-spot {
+  min-width: 300px;
+  border-top: 2px solid #fff;
+  margin-top: 10px;
+  padding: 3px 8px 0 0 ;
+}
+.podium-spot-name {
+  font-family: F1Bold;
+  text-transform: uppercase;
+  font-size: 28px;
+}
+.podium-spot-detail {
+  font-size: 14px;
+  padding-left: 30px;
+}
+</style>
+</head>
+<body>
+<div class="infographic" style="background-image: url('https://pbs.twimg.com/media/D7f8e2VW4AAZp6C.jpg:large')">
+  <div style="position: absolute; width: 900px; height: 576px; background: linear-gradient(90deg,#15151e 15%,transparent);">
+  </div>
+	<div style="position: absolute; margin: 40px 40px 40px 180px; border-top: 3px solid #fff; border-right: 3px solid #fff; border-radius: 0 30px 0 0; height: 516px; width: 804px">
+    <img src="./images/logo-white.png" style="position: absolute; top: -2px; left: -140px; width: 120px;" />
+  </div>
+
+  <div style="position: absolute; bottom: 40px; left: 40px; font-family: F1Regular; color: white">
+    <div style="background: repeating-linear-gradient(
+          -45deg,
+          rgba(0,0,0,0),
+          rgba(0,0,0,0) 2px,
+          rgba(128,128,128,.3) 2px,
+          rgba(128,128,128,.3) 4px
+        ); padding: 5px">
+      <div style="font-family: F1Wide; font-size: 24px;">Race result</div>
+      <div style="font-size: 12px; color: rgba(255,255,255,.6)">
+        #MonacoGP<br />
+        r/Formula1Point5
+      </div>
+    </div>
+    <div class="podium-spot" style="border-top-color: gold; border-top-width: 4px">
+      <div class="podium-spot-name">1. <span style="font-size: 42px">Magnussen</span></div>
+      <div class="podium-spot-detail">Haas</div>
+      <div class="podium-spot-detail">1:11:109</div>
+    </div>
+    <div class="podium-spot" style="border-top-color: yellow">
+      <div class="podium-spot-name">2. Ricciardo</div>
+      <div class="podium-spot-detail">Haas</div>
+      <div class="podium-spot-detail">1:11:109</div>
+    </div>
+    <div class="podium-spot" style="border-top-color: #1c428e">
+      <div class="podium-spot-name">3. Kvyat</div>
+      <div class="podium-spot-detail">Haas</div>
+      <div class="podium-spot-detail">1:11:109</div>
+    </div>
+  </div>
+</div>
+</body>
+
+</html>
